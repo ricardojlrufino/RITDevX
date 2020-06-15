@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.ricardojlrufino</groupId>
+        <artifactId>ritdevx-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>rit-controller</artifactId>
+
+    <properties>
+        <jaxb.api.version>2.3.0</jaxb.api.version>
+    </properties>
+
+    <dependencies>
+    
+        <!-- COMPONENTS LIBRARY -->
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>SteelSeries</artifactId>
+            <version>3.9.30</version>
+        </dependency>
+
+         <dependency>
+            <groupId>org.knowm.xchart</groupId>
+            <artifactId>xchart</artifactId>
+            <version>3.6.3</version>
+        </dependency>
+        
+
+        <dependency>
+            <groupId>com.github.jiconfont</groupId>
+            <artifactId>jiconfont-swing</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.jiconfont</groupId>
+            <artifactId>jiconfont-bundle</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+
+        <!-- Protocol Implementation -->
+        
+        <dependency>
+            <groupId>io.opendevice</groupId>
+            <artifactId>opendevice-core</artifactId>
+            <version>0.5.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.opendevice</groupId>
+            <artifactId>opendevice-connection-stream</artifactId>
+            <version>0.5.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- File Serialization -->
+ 
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>${jaxb.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.api.version}</version>
+        </dependency>
+        
+           <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>javax.activation</artifactId>
+            <version>1.2.0</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+</project>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config type="App">
+    <widgets type="Image">
+        <Date type="java.util.Date">2020-06-05T15:35:40.870-03:00</Date>
+        <Value type="java.lang.Integer">1</Value>
+    </widgets>
+    <widgets type="Image2">
+        <Location xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="java.awt.Point" xsi:type="xs:string">1,2</Location>
+        <Size xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="java.awt.Dimension" xsi:type="xs:string">100,200</Size>
+        <Date type="java.util.Date">2020-06-05T15:35:40.934-03:00</Date>
+        <Backgroud type="java.io.File">/teste.png</Backgroud>
+        <Value type="java.lang.Integer">10</Value>
+    </widgets>
+</config>
