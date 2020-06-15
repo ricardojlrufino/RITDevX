@@ -26,7 +26,7 @@ It consists mainly of two modules:
 
   
 
-![Demo](/media/ricardo/Dados/Workspace/Arduino/RITDevX-Project/docs/images/intro.gif)
+![Demo](docs/images/intro.gif)
 
 ## Key features (Designer)
 
