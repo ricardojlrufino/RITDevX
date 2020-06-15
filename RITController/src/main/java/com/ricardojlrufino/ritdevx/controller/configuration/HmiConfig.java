@@ -16,9 +16,6 @@
  *******************************************************************************/
 package com.ricardojlrufino.ritdevx.controller.configuration;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Point;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,7 +59,7 @@ public class HmiConfig extends WidgetConfig {
         HmiConfig.class,
         Point.class,
         java.awt.geom.Point2D.Double.class,
-        Dimension.class,
+        java.awt.Dimension.class,
         java.awt.Color.class,
         java.awt.Font.class,
         jiconfont.icons.font_awesome.FontAwesome.class,
@@ -95,9 +92,9 @@ public class HmiConfig extends WidgetConfig {
   private static KeyValueAdapter createKeyValueAdapter(JAXBContext jaxbContext) throws JAXBException {
     KeyValueAdapter adapter = new KeyValueAdapter(jaxbContext);
     adapter.addSerializer(Point.class, new PointSerializer());
-    adapter.addSerializer(Dimension.class, new DimensionSerializer());
-    adapter.addSerializer(Color.class, new ColorSerializer());
-    adapter.addSerializer(Font.class, new FontSerializer());
+    adapter.addSerializer(java.awt.Dimension.class, new DimensionSerializer());
+    adapter.addSerializer(java.awt.Color.class, new ColorSerializer());
+    adapter.addSerializer(java.awt.Font.class, new FontSerializer());
     return adapter;
   }
 

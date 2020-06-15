@@ -78,7 +78,6 @@ public class SwingBasicFactory implements WidgetFactory {
 
   }
 
-  private String name;
 
   private final Class[] COMPONENTS_ = {JButton.class, JLabel.class, JRadioButton.class, JCheckBox.class, JList.class,
       JPanel.class, JPasswordField.class,
@@ -99,6 +98,8 @@ public class SwingBasicFactory implements WidgetFactory {
 
   @Override
   public JComponent create(WidgetInfo info, Point point) {
+    String name = null;
+    
     String componentClass = info.getName();
     JComponent component = null;
 

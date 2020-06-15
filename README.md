@@ -17,11 +17,9 @@ RITDevX is a visual interface design tool, which allows the creation of interfac
 
 It consists mainly of two modules:
 
-- **Designer** - Which is the tool to create / design interface, where all aspects are configured.
-
+- **Designer** - Which is the tool to create / design interface, where all aspects are configured.  
 - **Controller** - It is the execution tool, which opens the layout defined by the Design module. It is responsible for communicating with devices using the [OpenDevice](https://github.com/OpenDevice/opendevice-lib-arduino) library (but can by extended). 
-  This module can be *embedded* into an existing application or can run in *standalone mode*.
-
+  This module can be *embedded* into an existing application or can run in *standalone mode*.  
 - **Arduino IDE Plugin** - Enable easy integration with the Arduino IDE, and more advanced integration with this [alternative version of the Arduino IDE](https://github.com/ricardojlrufino/Arduino/releases).  ( **TODO ***)
 
   
@@ -30,24 +28,17 @@ It consists mainly of two modules:
 
 ## Key features (Designer)
 
-- Drag and drop components
-
-- Drag and drop external images
-
-- Keyboard editing
-
-- Save / Open layout files
-
-- Allow rapid simulation ( need Controller )
-
-- Widgets
-
-  - - [x] Images
-
-  - - [ ] Icons (WIP)
-  - - [ ] Gauges 
-  - - [ ] Levels 
-  - - [x] Charts (WIP)
+- Drag and drop components  
+- Drag and drop external images  
+- Keyboard editing  
+- Save / Open layout files  
+- Allow rapid simulation ( need Controller )  
+- Widgets  
+  - [x] Images  
+  - [ ] Icons (WIP)  
+  - [ ] Gauges  
+  - [ ] Levels   
+  - [x] Charts (WIP)  
 
 Please see: [docs/WORK_IN_PROGRESS.md](docs/WORK_IN_PROGRESS.md), to a full list of planned features and the current state
 
@@ -57,11 +48,10 @@ See:  [User Guide Designer Tutorial](https://opendevice.atlassian.net/wiki/space
 
 - Run layouts in standalone mode
 - Log View
-- Communication
-  - - [x] Usb
-  - - [ ] Bluetooth
-  - - [ ] TCP / WiFi
-
+- Communication  
+  - [x] Usb  
+  - [ ] Bluetooth  
+  - [ ] TCP / WiFi  
 
 
 Please see: [docs/WORK_IN_PROGRESS.md](docs/WORK_IN_PROGRESS.md), to a full list of planned features and the current state
@@ -90,8 +80,8 @@ TODO: ADD LINK
 
 ### Requirements
 
-- Java 8
-- SO: Windows / Linux / MacOs
+- Java 8  
+- SO: Windows / Linux / MacOs  
 
 ### Build from Sources
 

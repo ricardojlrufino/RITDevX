@@ -125,7 +125,8 @@ public class RIDisplay extends JLayeredPane {
 
 
   private boolean isClicable(JComponent comp) {
-    return true;
+    // TODO: Implement, check if is a image only or chat or etc....
+    return comp instanceof OnOffInterface;
   }
 
 

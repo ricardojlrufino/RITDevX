@@ -43,14 +43,6 @@ import javax.swing.JLabel;
 
 public final class UIHelper {
 
-  private static String getExtension(File file) {
-    String name = file.getName();
-    int lastIndexOf = name.lastIndexOf(".");
-    if (lastIndexOf == -1) {
-      return ""; // empty extension
-    }
-    return name.substring(lastIndexOf);
-  }
 
   public static File getOffFile(File file) {
     if (file == null)

@@ -34,7 +34,6 @@ import com.ricardojlrufino.ritdevx.controller.widgets.GaugesSteelSeriesFactory;
 import com.ricardojlrufino.ritdevx.controller.widgets.WidgetFactory;
 import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
 import com.ricardojlrufino.ritdevx.controller.widgets.XChatWidgetsFactory;
-import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.ImageState;
 
 /**
  * Store widgets definitions ({@link WidgetInfo}) and inialized representation of widgets (JComponent).
@@ -52,11 +51,11 @@ public class WidgetManager {
   // Widget instances as JComponent (from file ou designer)
   private HashMap<String, JComponent> widgetsComponents = new LinkedHashMap<>();
 
-  private final WidgetFactory[] widgetFactories;
 
   public WidgetManager() {
 
-    widgetFactories = new WidgetFactory[] {
+    // Load all widgets..
+    WidgetFactory[] widgetFactories = new WidgetFactory[] {
         new DefaultWidgetsFactory(),
         new XChatWidgetsFactory(),
         new GaugesSteelSeriesFactory()

@@ -50,6 +50,9 @@ public class JMultiLineToolTip extends JToolTip {
 
   private static final long serialVersionUID = 7813662474312183098L;
 
+  protected int columns = 0;
+  protected int fixedwidth = 0;
+  
   public JMultiLineToolTip() {
     updateUI();
   }
@@ -76,8 +79,6 @@ public class JMultiLineToolTip extends JToolTip {
     return fixedwidth;
   }
 
-  protected int columns = 0;
-  protected int fixedwidth = 0;
 }
 
 /**
@@ -85,9 +86,7 @@ public class JMultiLineToolTip extends JToolTip {
  */
 class MultiLineToolTipUI extends BasicToolTipUI {
 
-  static MultiLineToolTipUI sharedInstance = new MultiLineToolTipUI();
-  Font smallFont;
-  static JToolTip tip;
+  private static MultiLineToolTipUI sharedInstance = new MultiLineToolTipUI();
   protected CellRendererPane rendererPane;
 
   private static JTextArea textArea;
@@ -102,7 +101,6 @@ class MultiLineToolTipUI extends BasicToolTipUI {
 
   public void installUI(JComponent c) {
     super.installUI(c);
-    tip = (JToolTip) c;
     rendererPane = new CellRendererPane();
     c.add(rendererPane);
   }

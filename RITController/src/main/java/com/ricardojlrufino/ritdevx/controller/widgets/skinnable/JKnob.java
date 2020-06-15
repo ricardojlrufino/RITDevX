@@ -153,6 +153,8 @@ public class JKnob extends JComponent implements MouseListener, MouseMotionListe
     setModel(new DefaultBoundedRangeModel(0, 0, minValue, maxValue));
     this.addMouseListener(this);
     this.addMouseMotionListener(this);
+    this.minAngle = minAngle;
+    this.maxAngle = maxAngle;
   }
 
 
@@ -354,26 +356,17 @@ public class JKnob extends JComponent implements MouseListener, MouseMotionListe
 
   // Methods from the MouseListener interface.
 
-  /**
-   * Empy method because nothing happens on a click.
-   *
-   * @param e reference to a MouseEvent object describing the mouse click.
-   */
-  public void mouseClicked(MouseEvent e) {}
+  public void mouseClicked(MouseEvent e) {
+      // Empty method because nothing happens 
+  }
 
-  /**
-   * Empty method because nothing happens when the mouse enters the Knob.
-   *
-   * @param e reference to a MouseEvent object describing the mouse entry.
-   */
-  public void mouseEntered(MouseEvent e) {}
+  public void mouseEntered(MouseEvent e) {
+    // Empty method because nothing happens 
+  }
 
-  /**
-   * Empty method because nothing happens when the mouse exits the knob.
-   *
-   * @param e reference to a MouseEvent object describing the mouse exit.
-   */
-  public void mouseExited(MouseEvent e) {}
+  public void mouseExited(MouseEvent e) {
+    // Empty method because nothing happens 
+  }
 
   /**
    * When the mouse button is pressed, the dragging of the spot will be enabled if the button was

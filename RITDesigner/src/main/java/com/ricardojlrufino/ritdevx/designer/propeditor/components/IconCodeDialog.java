@@ -265,12 +265,7 @@ public class IconCodeDialog extends JDialog {
 
   public static void main(String[] args) {
     IconCodeDialog iconFontDialog = new IconCodeDialog();
-    iconFontDialog.addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosing(WindowEvent e) {
-        System.exit(0);
-      }
-    });
+    iconFontDialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
     iconFontDialog.setVisible(true);
   }
 

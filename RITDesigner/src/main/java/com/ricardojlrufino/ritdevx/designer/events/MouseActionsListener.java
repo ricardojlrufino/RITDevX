@@ -74,7 +74,6 @@ public final class MouseActionsListener implements MouseListener {
   //  private JComboBox<String> comboBox;
   //  private JTabbedPane events;
   //  private EventsTable eventsTable;
-  private int step = -1;
   //  private ArrayList<JComponent> panels;
   private RIDesigner designer;
 

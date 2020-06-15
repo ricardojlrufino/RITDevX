@@ -92,7 +92,7 @@ public class NumberPropertyEditor extends AbstractPropertyEditor {
       return type.getConstructor(new Class[] { String.class }).newInstance(new Object[] { "0" });
     } catch (Exception e) {
       // will not happen
-      throw new RuntimeException(e);
+      throw new IllegalArgumentException(e);
     }
   }
 

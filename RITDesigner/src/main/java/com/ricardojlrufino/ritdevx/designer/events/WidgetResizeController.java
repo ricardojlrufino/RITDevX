@@ -30,7 +30,6 @@
 package com.ricardojlrufino.ritdevx.designer.events;
 
 import java.awt.Cursor;
-import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -52,16 +51,16 @@ import com.ricardojlrufino.ritdevx.designer.view.PropertiesPanel;
  */
 public class WidgetResizeController extends MouseAdapter implements MouseMotionListener {
 
-  static final int RESIZE_AREA = 5;
-  static final int BORDER_SIZE = 1;
-  static final int ANCHOR_LOC = 2;
+  private static final int RESIZE_AREA = 5;
+//  private static final int BORDER_SIZE = 1;
+//  private static final int ANCHOR_LOC = 2;
 
   private JComponent comp;
   private JComponent parent;
 
   private Border borderDefault;
   private Border resizableBorder;
-  private Rectangle rect;
+  
   private PropertiesPanel properties;
   boolean resizing = false;
 
@@ -78,7 +77,6 @@ public class WidgetResizeController extends MouseAdapter implements MouseMotionL
     this.comp = component;
     this.comp.setDoubleBuffered(true);
     this.borderDefault = comp.getBorder();
-    this.rect = comp.getBounds();
     this.resizableBorder = new ResizableBorder();
     this.parent = (JComponent) comp.getParent();
     this.properties = table;

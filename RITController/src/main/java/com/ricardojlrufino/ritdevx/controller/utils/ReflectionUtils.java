@@ -44,7 +44,7 @@ public interface ReflectionUtils {
 
     String className = targetType.getName();
 
-    if (className.equals("int") || className.equals("java.lang.Integer")) {
+    if ("int".equals(className) || "java.lang.Integer".equals(className)) {
       int x = -1;
       try {
         x = Integer.parseInt(valueStr);
@@ -52,7 +52,7 @@ public interface ReflectionUtils {
         return null;
       }
       newValue = new Integer(x);
-    } else if (className.equals("short") || className.equals("java.lang.Short")) {
+    } else if ("short".equals(className) || "java.lang.Short".equals(className)) {
       short x = -1;
       try {
         x = Short.parseShort(valueStr);
@@ -61,7 +61,7 @@ public interface ReflectionUtils {
       }
       newValue = new Short(x);
 
-    } else if (className.equals("char") || className.equals("java.lang.Character")) {
+    } else if ("char".equals(className) || "java.lang.Character".equals(className)) {
 
       if (valueStr.length() != 1) {
         return null;
@@ -69,7 +69,7 @@ public interface ReflectionUtils {
 
       newValue = new Character(valueStr.charAt(0));
 
-    } else if (className.equals("long") || className.equals("java.lang.Long")) {
+    } else if ("long".equals(className) || "java.lang.Long".equals(className)) {
       long x = -1;
       try {
         x = Long.parseLong(valueStr);
@@ -77,7 +77,7 @@ public interface ReflectionUtils {
         return null;
       }
       newValue = new Long(x);
-    } else if (className.equals("float") || className.equals("java.lang.Float")) {
+    } else if (("float".equals(className) || className.equals("java.lang.Float"))) {
       float x = -1;
       try {
         x = Float.parseFloat(valueStr);
@@ -85,7 +85,7 @@ public interface ReflectionUtils {
         return null;
       }
       newValue = new Float(x);
-    } else if (className.equals("double") || className.equals("java.lang.Double")) {
+    } else if ("double".equals(className) || "java.lang.Double".equals(className)) {
       double x = -1;
       try {
         x = Double.parseDouble(valueStr);
@@ -93,7 +93,7 @@ public interface ReflectionUtils {
         return null;
       }
       newValue = new Double(x);
-    } else if (className.equals("boolean") || className.equals("java.lang.Boolean")) {
+    } else if ("boolean".equals(className) || "java.lang.Boolean".equals(className)) {
       try {
         int x = Integer.parseInt(valueStr);
         if (x == 1) {
@@ -104,9 +104,9 @@ public interface ReflectionUtils {
           return null;
         }
       } catch (Exception e) {
-        if (valueStr.equalsIgnoreCase("true") || valueStr.equals("on")) {
+        if ("true".equalsIgnoreCase(valueStr) || "on".equals(valueStr)) {
           newValue = Boolean.TRUE;
-        } else if (valueStr.equalsIgnoreCase("false")) {
+        } else if ("false".equalsIgnoreCase(valueStr)) {
           newValue = Boolean.FALSE;
         } else {
           return null;

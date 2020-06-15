@@ -166,7 +166,8 @@ public class JTableProperty extends JTable {
           }
         }
         // Select the cell in the table.
-        final int r = row, c = col;
+        final int r = row;
+        final int c = col;
         EventQueue.invokeLater(new Runnable() {
           public void run() {
             changeSelection(r, c, false, false);

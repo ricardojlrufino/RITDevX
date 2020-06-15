@@ -55,9 +55,6 @@ public class WidgetKeyListener implements KeyListener {
   private JComponent comp;
   private JComponent parent;
   private PropertiesPanel propertiesTable;
-  private int currX;
-  private int currY;
-
   private TreeMap<String, JComponent> addedComponentsMap;
   private int step = -1;
   private ArrayList<JComponent> panels;
@@ -85,7 +82,7 @@ public class WidgetKeyListener implements KeyListener {
 
   @Override
   public void keyTyped(KeyEvent e) {
-
+    // ignore.
   }
 
   /**
@@ -96,8 +93,8 @@ public class WidgetKeyListener implements KeyListener {
   @Override
   public void keyPressed(KeyEvent e) {
     JComponent c = (JComponent) e.getSource();
-    currX = c.getLocation().x;
-    currY = c.getLocation().y;
+    int currX = c.getLocation().x;
+    int currY = c.getLocation().y;
     int key = e.getKeyCode();
     switch (key) {
     case KeyEvent.VK_RIGHT:

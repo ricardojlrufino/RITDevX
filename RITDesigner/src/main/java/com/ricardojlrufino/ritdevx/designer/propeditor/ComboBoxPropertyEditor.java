@@ -51,6 +51,7 @@ public class ComboBoxPropertyEditor extends AbstractPropertyEditor {
     combo.setRenderer(new Renderer());
     combo.addPopupMenuListener(new PopupMenuListener() {
       public void popupMenuCanceled(PopupMenuEvent e) {
+        // ignore.
       }
 
       public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
@@ -58,6 +59,7 @@ public class ComboBoxPropertyEditor extends AbstractPropertyEditor {
       }
 
       public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+        // ignore.
       }
     });
     combo.addKeyListener(new KeyAdapter() {

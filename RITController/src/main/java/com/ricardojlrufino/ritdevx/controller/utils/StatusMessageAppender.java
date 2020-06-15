@@ -39,7 +39,9 @@ public class StatusMessageAppender extends AppenderSkeleton {
 
   }
 
-  public void close() {}
+  public void close() {
+    // Ignore
+  }
 
   public boolean requiresLayout() {
     return false;

@@ -133,12 +133,12 @@ public class RIController extends JFrame {
 
       @Override
       public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-
+        // ignore.
       }
 
       @Override
       public void popupMenuCanceled(PopupMenuEvent e) {
-
+        // ignore.
       }
     });
   }
@@ -350,7 +350,7 @@ public class RIController extends JFrame {
   /**
    * Display exceptions to user.
    */
-  void handleException(String title, Exception ex) {
+  public void handleException(String title, Exception ex) {
     ErrorDialog.showErrorDialog(this, title, ex);
   }
 

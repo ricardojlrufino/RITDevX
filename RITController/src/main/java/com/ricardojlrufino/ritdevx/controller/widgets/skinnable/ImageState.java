@@ -43,8 +43,11 @@ public class ImageState extends JComponent implements OnOffInterface {
   private File imageOn;
   private File imageOff;
   private String customCmd;
-
   private OperationMode operationMode = OperationMode.NONE;
+  
+  // State
+  private BufferedImage imageBufferON;
+  private BufferedImage imageBufferOFF;
 
   public OperationMode getOperationMode() {
     return operationMode;
@@ -54,9 +57,7 @@ public class ImageState extends JComponent implements OnOffInterface {
     this.operationMode = mode;
   }
 
-  // State
-  private BufferedImage imageBufferON;
-  private BufferedImage imageBufferOFF;
+
 
 
   public boolean isAutoScale() {

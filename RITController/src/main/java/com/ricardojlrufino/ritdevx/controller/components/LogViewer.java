@@ -31,11 +31,15 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+/**
+ * Logview with auto scrolll. 
+ * @author Ricardo JL Rufino - (ricardo.jl.rufino@gmail.com)
+ * @date 14 de jun de 2020
+ */
 public class LogViewer extends JPanel {
 
   private final JScrollPane scroll;
   private final DefaultStyledDocument document;
-  private final JTextPane consoleTextPane;
   private Timer timer;
   private boolean newLinePrinted;
   private SimpleAttributeSet stdOutStyle;
@@ -45,7 +49,7 @@ public class LogViewer extends JPanel {
     this.setLayout(new BorderLayout());
 
     document = new DefaultStyledDocument();
-    consoleTextPane = new JTextPane(document);
+    JTextPane consoleTextPane = new JTextPane(document);
     consoleTextPane.setEditable(false);
     consoleTextPane.setBackground(Color.BLACK);
 
@@ -66,8 +70,6 @@ public class LogViewer extends JPanel {
     DefaultCaret caret = (DefaultCaret) consoleTextPane.getCaret();
     caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
     consoleTextPane.setFocusTraversalKeysEnabled(false);
-
-    consoleTextPane.setText("teseeeeeeeeeeeee");
 
     //    JPanel noWrapPanel = new JPanel(new BorderLayout());
     //    noWrapPanel.setBackground(Color.BLACK);
@@ -92,7 +94,7 @@ public class LogViewer extends JPanel {
   public void append(String message) {
 
     try {
-      document.insertString(document.getLength(), message.toString(), stdOutStyle);
+      document.insertString(document.getLength(), message, stdOutStyle);
       newLinePrinted = true;
 
       if (!timer.isRunning()) {
@@ -104,8 +106,16 @@ public class LogViewer extends JPanel {
     }
 
   }
+  
+  public void clear() {
+    try {
+      document.remove(0, document.getLength());
+    } catch (BadLocationException e) {
+      e.printStackTrace();
+    }
+  }
 
-  public void scrollDown() {
+  private void scrollDown() {
     scroll.getHorizontalScrollBar().setValue(0);
     scroll.getVerticalScrollBar().setValue(scroll.getVerticalScrollBar().getMaximum());
   }

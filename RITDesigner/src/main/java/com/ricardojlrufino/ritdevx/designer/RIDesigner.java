@@ -470,9 +470,6 @@ public class RIDesigner extends JFrame {
   };
 
   
-  public void setSelectedComponent(JComponent c) {
-
-  }
 
   public JComboBox<String> getComponentListCombobox() {
     return componentListCombobox;

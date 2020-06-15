@@ -30,7 +30,6 @@ public class LabelColor extends JPanel {
 
   private JLabel label;
   private JLabel lColor;
-  private Color color;
 
   public LabelColor() {
     setLayout(new BorderLayout());
@@ -53,7 +52,6 @@ public class LabelColor extends JPanel {
   }
 
   public void setColor(Color color) {
-    this.color = color;
     lColor.setBackground(color);
     lColor.setForeground(color);
     if (color != null)

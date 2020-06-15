@@ -27,7 +27,7 @@ import java.beans.PropertyEditor;
  * AbstractPropertyEditor. <br>
  *  
  */
-public class AbstractPropertyEditor implements PropertyEditor {
+public abstract class AbstractPropertyEditor implements PropertyEditor {
 
   protected Component editor;
   private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
@@ -56,29 +56,32 @@ public class AbstractPropertyEditor implements PropertyEditor {
     listeners.firePropertyChange("value", oldValue, newValue);
   }
 
-  public Object getValue() {
-    return null;
-  }
+  public abstract Object getValue();
 
-  public void setValue(Object value) {
-  }
+  public abstract void setValue(Object value);
 
+  
   public String getAsText() {
+    // default implementation, do nothing
     return null;
   }
 
   public String getJavaInitializationString() {
+    // default implementation, do nothing
     return null;
   }
 
   public String[] getTags() {
+    // default implementation, do nothing
     return null;
   }
 
   public void setAsText(String text) throws IllegalArgumentException {
+    // default implementation, do nothing
   }
 
   public void paintValue(Graphics gfx, Rectangle box) {
+    // default implementation, do nothing
   }
 
 }
