@@ -1,16 +1,17 @@
 <h1 align="center">
   <br>
   <img src="docs/images/logo.svg" alt="RITDevX">
-  <br>
-<!--
-  <img src="https://img.shields.io/npm/l/stegcloak?style=plastic" />
+  <br><!--  
+  <a href="https://app.codacy.com/manual/ricardojlrufino/RITDevX"> 
+     <img src="https://api.codacy.com/project/badge/Grade/bd99fc0164cb405f9e995fe23789b62a"/>
+  </a>
   <a href="https://www.npmjs.com/package/stegcloak"> <img src="https://img.shields.io/npm/v/stegcloak?style=plastic" /> </a>
   <img src="https://badgen.net/badge/icon/terminal?icon=terminal&label" />
   <img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg" />
--->	  
-  <br>
-  <a href="https://discord.gg/PKDxGQ" target="_blank"><img src="docs/images/discord.png" /></a>
+--><br>
+  <a href="https://discord.gg/ZCq4AkC" target="_blank"><img src="docs/images/discord.png" /></a>
 </h1>
+
 <h4 align="center">RITDevX - Rapid Interface Tool for Devices Experiments</h4>
 
 RITDevX is a visual interface design tool, which allows the creation of interfaces to control and monitor real devices such as **Arduino** and **Raspberry**, allowing to develop experiments quickly.
@@ -85,11 +86,17 @@ TODO: ADD LINK
 
 ### Build from Sources
 
-	- `mvn package -Dmaven.test.skip=true`
-	- This is a multi-module `maven` project, you can import (root pom.xml) your favorite IDE
+ - `mvn package -Dmaven.test.skip=true`
+ -  This is a multi-module `maven` project, you can import (root pom.xml) your favorite IDE
 
 ## Docs
 
 See documentation and examples at:
 
 [RITDevX Wiki](https://opendevice.atlassian.net/wiki/spaces/RITDevX)
+
+## Support/Sponsor
+
+Helps open source software continue to evolve. Support my work on Patreon  
+
+[![Support](docs/images/patreon.png)](https://www.patreon.com/ricardojlrufino)
