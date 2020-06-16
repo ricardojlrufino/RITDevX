@@ -102,13 +102,15 @@ public class RIDisplay extends JLayeredPane {
   }
 
   public void addWidget(JComponent comp) {
-    // TODO: check layer !!
+    
+    // TODO: check layer !! (NOT IMPLEMENTED Yet)
     add(comp, new Integer(currentLayer++));
-
-    // add lister for TEXT ??? (fow now we not use any text component...)
-    comp.addMouseListener(widgetClickEvent);
-
+    
     if (isClicable(comp)) {
+      log.debug("Add widget: " + comp.getName() + " - " + comp);
+      
+      comp.addMouseListener(widgetClickEvent);
+
       comp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
     }
@@ -170,15 +172,10 @@ public class RIDisplay extends JLayeredPane {
 
           }
 
-
-
         }
 
-        //        deviceManager.sendCommand("PlayTone", new Object[] {100});
-
-      } catch (Exception e1) {
-        // TODO Auto-generated catch block
-        e1.printStackTrace();
+      } catch (Exception ex) {
+        handleException(ex.getMessage(), ex);
       }
     }
 

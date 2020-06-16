@@ -6,6 +6,8 @@ This document describes the planned requirements for the project and its current
 
 [PT_BR]  Esse documento descreve os requisitos planejados para o projeto e seu atual estado
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/740ff29ccbec4365a6d03c1d7d2b9d47)](https://www.codacy.com/manual/ricardojlrufino/RITDevX?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ricardojlrufino/RITDevX&amp;utm_campaign=Badge_Grade)
+
 Desinger
 ========
 

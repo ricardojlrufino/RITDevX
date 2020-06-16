@@ -30,7 +30,6 @@
 package com.ricardojlrufino.ritdevx.designer.components;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.CellRendererPane;

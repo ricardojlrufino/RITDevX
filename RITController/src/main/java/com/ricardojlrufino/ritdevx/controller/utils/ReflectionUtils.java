@@ -77,7 +77,7 @@ public interface ReflectionUtils {
         return null;
       }
       newValue = new Long(x);
-    } else if (("float".equals(className) || className.equals("java.lang.Float"))) {
+    } else if (("float".equals(className) || "java.lang.Float".equals(className))) {
       float x = -1;
       try {
         x = Float.parseFloat(valueStr);

@@ -17,7 +17,6 @@
 package com.ricardojlrufino.ritdevx.designer;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Graphics2D;

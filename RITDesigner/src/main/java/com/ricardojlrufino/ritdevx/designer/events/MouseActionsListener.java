@@ -98,9 +98,10 @@ public final class MouseActionsListener implements MouseListener {
    */
   @Override
   public void mouseClicked(MouseEvent e) {
-    int action = e.getButton();
-    switch (action) {
-    case 1:
+    
+    int btn = e.getButton();
+    
+    if (btn == 1) {
       comp.setBorder(hoverBorder);
       // System.out.println(parent.getComponentZOrder(comp));
       comp.requestFocus();
@@ -118,13 +119,9 @@ public final class MouseActionsListener implements MouseListener {
       } catch (Exception ex) {
         ex.printStackTrace();
       }
-      break;
-    case 2:
-      break;
-    case 3:
+    } else if (btn == 3) {
       createPopupMenu();
       popup.show(e.getComponent(), e.getX(), e.getY());
-      break;
     }
 
   }
