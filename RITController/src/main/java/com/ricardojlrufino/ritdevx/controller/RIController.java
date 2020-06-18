@@ -22,6 +22,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import javax.swing.AbstractAction;
@@ -121,8 +123,6 @@ public class RIController extends JFrame {
     popup.add(new JMenuItem(settingsAction));
     //    popup.addComponentListener(l);
 
-    setComponentPopupMenu(display, popup);
-
     popup.addPopupMenuListener(new PopupMenuListener() {
 
       @Override
@@ -141,23 +141,31 @@ public class RIController extends JFrame {
         // ignore.
       }
     });
+    
+    this.addMouseListener(new MouseAdapter() {
+      public void mouseReleased(MouseEvent e) {
+        if (e.getButton() == e.BUTTON3) {
+          popup.show(e.getComponent(), e.getX(), e.getY());
+        }
+      }
+    });
   }
 
-  /**
-   * Provides component hierarchy traversal to set menu.
-   * 
-   * @param container start node for the traversal.
-   */
-  private void setComponentPopupMenu(Container container, JPopupMenu menu) {
-    for (final Component comp : container.getComponents()) {
-      if (comp instanceof JComponent) {
-        ((JComponent) comp).setComponentPopupMenu(menu);
-      }
-      if (comp instanceof Container) {
-        setComponentPopupMenu((Container) comp, menu);
-      }
-    }
-  }
+//  /**
+//   * Provides component hierarchy traversal to set menu.
+//   * 
+//   * @param container start node for the traversal.
+//   */
+//  private void setComponentPopupMenu(Container container, JPopupMenu menu) {
+//    for (final Component comp : container.getComponents()) {
+//      if (comp instanceof JComponent) {
+//        ((JComponent) comp).setComponentPopupMenu(menu);
+//      }
+//      if (comp instanceof Container) {
+//        setComponentPopupMenu((Container) comp, menu);
+//      }
+//    }
+//  }
 
   protected void initConnections() {
     //    ODev.getConfig().setBindLocalVariables(false); // must call AddDevice
@@ -169,20 +177,27 @@ public class RIController extends JFrame {
 
 
   public void connect() {
-    try {
-
-      if (deviceManager.getConnections().isEmpty()) {
-        StreamConnection usb = StreamConnectionFactory.createUsb();
-        usb.setSerializer(null); // TODO: REMOVE THIS, precisou para forçar o padrão, mas é bug.
-        deviceManager.addConnection(usb);
-      }
-
-      deviceManager.connect();
-
-
-    } catch (IOException e) {
-      handleException(tr("Connection fail"), e);
+    
+    if (deviceManager.getConnections().isEmpty()) {
+      StreamConnection usb = StreamConnectionFactory.createUsb();
+      usb.setSerializer(null); // TODO: REMOVE THIS, precisou para forçar o padrão, mas é bug.
+      deviceManager.addConnection(usb);
     }
+
+    Thread thread = new Thread() {
+      @Override
+      public void run() {
+        try {
+          deviceManager.connect();
+        } catch (IOException e) {
+          handleException(tr("Connection fail"), e);
+        }
+      }
+    };
+
+    thread.start();
+
+   
   }
 
   // ========================================================================
