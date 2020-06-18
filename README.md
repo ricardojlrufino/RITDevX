@@ -77,8 +77,7 @@ Here are some points you can contribute:
 
 The project binaries are available in github releases.
 
-TODO: ADD LINK
-
+https://github.com/ricardojlrufino/RITDevX/releases
 
 
 ### Requirements
