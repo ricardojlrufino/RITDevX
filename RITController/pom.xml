@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.ricardojlrufino</groupId>
         <artifactId>ritdevx-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.1.0-SNAPSHOT</version>
     </parent>
     <artifactId>rit-controller</artifactId>
 
@@ -14,7 +14,7 @@
     </properties>
 
     <dependencies>
-    
+
         <!-- COMPONENTS LIBRARY -->
         <dependency>
             <groupId>eu.hansolo</groupId>
@@ -22,12 +22,12 @@
             <version>3.9.30</version>
         </dependency>
 
-         <dependency>
+        <dependency>
             <groupId>org.knowm.xchart</groupId>
             <artifactId>xchart</artifactId>
             <version>3.6.3</version>
         </dependency>
-        
+
 
         <dependency>
             <groupId>com.github.jiconfont</groupId>
@@ -43,7 +43,7 @@
 
 
         <!-- Protocol Implementation -->
-        
+
         <dependency>
             <groupId>io.opendevice</groupId>
             <artifactId>opendevice-core</artifactId>
@@ -57,7 +57,7 @@
         </dependency>
 
         <!-- File Serialization -->
- 
+
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -73,13 +73,68 @@
             <artifactId>jaxb-impl</artifactId>
             <version>${jaxb.api.version}</version>
         </dependency>
-        
-           <dependency>
+
+        <dependency>
             <groupId>com.sun.activation</groupId>
             <artifactId>javax.activation</artifactId>
             <version>1.2.0</version>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>
+
+<profiles>
+    <profile>
+        <id>controller-standalone</id>
+        <activation>
+             <activeByDefault>false</activeByDefault>
+         </activation>
+        <build>
+            <finalName>${project.name}-${releaseVersion}</finalName>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>com.ricardojlrufino.ritdevx.controller.RIControllerMain</mainClass>
+                            </manifest>
+                        </archive>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                        <appendAssemblyId>false</appendAssemblyId>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                            <phase>package</phase> <!-- bind to the packaging phase -->
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+</profiles>
+
+<!--     <build> -->
+<!--         <plugins> -->
+<!--             <plugin> -->
+<!--                 <artifactId>maven-dependency-plugin</artifactId> -->
+<!--                 <executions> -->
+<!--                     <execution> -->
+<!--                         <phase>install</phase> -->
+<!--                         <goals> -->
+<!--                             <goal>copy-dependencies</goal> -->
+<!--                         </goals> -->
+<!--                         <configuration> -->
+<!--                             <outputDirectory>${parentDir}/lib</outputDirectory> -->
+<!--                         </configuration> -->
+<!--                     </execution> -->
+<!--                 </executions> -->
+<!--             </plugin> -->
+<!--         </plugins> -->
+<!--     </build> -->
 </project>

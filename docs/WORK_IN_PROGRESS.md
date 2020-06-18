@@ -69,6 +69,8 @@ Desinger
 ### Images (on/off images)
 
 - [x] On/Off images
+- [x] Design Mode
+- [x] Controller Mode
 - [ ] Operation modes 
   - [ ] None
   - [ ] Sensor
@@ -82,7 +84,7 @@ Desinger
 ### Icons
 
 - [x] Design Mode
-- [ ] Execution Mode
+- [ ] Controller Mode
 
 - [x] On/Off images
 - [ ] Operation modes 
@@ -91,8 +93,15 @@ Desinger
 
 - [ ] Line
   - [x] Design Mode
-  - [x] Execution Mode
+  - [x] Controller Mode
 - [ ] Graficos, precisa definir o atributo de onde ele obtem as linhas.   
+
+Button
+
+- [ ] Design Mode
+- [ ] Controller Mode
+
+Use this class: https://github.com/lukakralj/Snippets/blob/master/Java/ovalButton/OvalButton.java
 
 ### Gauges (SteelSeries)
 
@@ -100,7 +109,7 @@ Note: we need a big help here. This library has a multiple of configuration para
 
 - [x] Design Mode
 - [ ] Design Mode Cleanup...
-- [ ] Execution Mode
+- [ ] Controller Mode
 
 Levels (SteelSeries)
 
@@ -126,7 +135,8 @@ Controller (Execution)
 - [x] **Communication**
    - [x] Usb
    - [ ] Bluetooth
-   - [ ] TCP / WIFI    
+   - [ ] TCP / WIFI  
+- [ ] Add label to Connecion status... (connecting and desconnected.)
 - [x] Support for sending commands (user commands)
 - [x] Example with arduino
 - [ ] Example of receipt with Esp8266

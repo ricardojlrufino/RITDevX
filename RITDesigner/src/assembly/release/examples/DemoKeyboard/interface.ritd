@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config name="App" type="App">
+    <Background type="java.awt.Color" >192,192,192</Background>
+    <BackgroudImage type="java.io.File">images/backgroud.jpg</BackgroudImage>
+    <ShowGrid type="java.lang.Boolean">false</ShowGrid>
+    <GridSize type="java.lang.Integer">20</GridSize>
+    <GridColor type="java.awt.Color" >206,0,0</GridColor>
+    <CurrentLayer type="java.lang.Integer">1</CurrentLayer>
+    <widgets name="BtnMax" type="Image">
+        <Location type="java.awt.Point" >60,163</Location>
+        <Size type="java.awt.Dimension" >24,22</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">ChangeVolume,1</CustomCmd>
+    </widgets>
+    <widgets name="BtnMin" type="Image">
+        <Location type="java.awt.Point" >33,163</Location>
+        <Size type="java.awt.Dimension" >24,22</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">ChangeVolume,0</CustomCmd>
+    </widgets>
+    <widgets name="Led" type="Image">
+        <Location type="java.awt.Point" >621,156</Location>
+        <Size type="java.awt.Dimension" >128,128</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <ImageOn type="java.io.File">images/power_circle.png</ImageOn>
+        <ImageOff type="java.io.File">images/power_circle-off.png</ImageOff>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+    </widgets>
+    <widgets name="Led1" type="Led">
+        <Location type="java.awt.Point" >30,48</Location>
+        <Size type="java.awt.Dimension" >28,28</Size>
+        <LedOn type="java.lang.Boolean">false</LedOn>
+        <LedColor type="eu.hansolo.steelseries.tools.LedColor">RED_LED</LedColor>
+        <CustomLedColor type="java.awt.Color" >255,0,0</CustomLedColor>
+        <LedType type="eu.hansolo.steelseries.tools.LedType">ROUND</LedType>
+        <LedBlinking type="java.lang.Boolean">false</LedBlinking>
+    </widgets>
+    <widgets name="key1" type="Image">
+        <Location type="java.awt.Point" >94,169</Location>
+        <Size type="java.awt.Dimension" >31,42</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <ImageOn type="java.io.File">images/key.jpg</ImageOn>
+        <ImageOff type="java.io.File">images/key-off.jpg</ImageOff>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">PlayTone,523</CustomCmd>
+    </widgets>
+    <widgets name="key10" type="Image">
+        <Location type="java.awt.Point" >408,168</Location>
+        <Size type="java.awt.Dimension" >31,42</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <ImageOn type="java.io.File">images/key.jpg</ImageOn>
+        <ImageOff type="java.io.File">images/key-off.jpg</ImageOff>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">PlayTone,1319</CustomCmd>
+    </widgets>
+    <widgets name="key2" type="Image">
+        <Location type="java.awt.Point" >129,169</Location>
+        <Size type="java.awt.Dimension" >31,42</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <ImageOn type="java.io.File">images/key.jpg</ImageOn>
+        <ImageOff type="java.io.File">images/key-off.jpg</ImageOff>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">PlayTone,587</CustomCmd>
+    </widgets>
+    <widgets name="key3" type="Image">
+        <Location type="java.awt.Point" >164,168</Location>
+        <Size type="java.awt.Dimension" >31,42</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <ImageOn type="java.io.File">images/key.jpg</ImageOn>
+        <ImageOff type="java.io.File">images/key-off.jpg</ImageOff>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">PlayTone,659</CustomCmd>
+    </widgets>
+    <widgets name="key4" type="Image">
+        <Location type="java.awt.Point" >199,168</Location>
+        <Size type="java.awt.Dimension" >31,42</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <ImageOn type="java.io.File">images/key.jpg</ImageOn>
+        <ImageOff type="java.io.File">images/key-off.jpg</ImageOff>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">PlayTone,698</CustomCmd>
+    </widgets>
+    <widgets name="key5" type="Image">
+        <Location type="java.awt.Point" >235,169</Location>
+        <Size type="java.awt.Dimension" >31,42</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <ImageOn type="java.io.File">images/key.jpg</ImageOn>
+        <ImageOff type="java.io.File">images/key-off.jpg</ImageOff>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">PlayTone,784</CustomCmd>
+    </widgets>
+    <widgets name="key6" type="Image">
+        <Location type="java.awt.Point" >270,169</Location>
+        <Size type="java.awt.Dimension" >31,42</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <ImageOn type="java.io.File">images/key.jpg</ImageOn>
+        <ImageOff type="java.io.File">images/key-off.jpg</ImageOff>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">PlayTone,880</CustomCmd>
+    </widgets>
+    <widgets name="key7" type="Image">
+        <Location type="java.awt.Point" >304,169</Location>
+        <Size type="java.awt.Dimension" >31,42</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <ImageOn type="java.io.File">images/key.jpg</ImageOn>
+        <ImageOff type="java.io.File">images/key-off.jpg</ImageOff>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">PlayTone,988</CustomCmd>
+    </widgets>
+    <widgets name="key8" type="Image">
+        <Location type="java.awt.Point" >339,168</Location>
+        <Size type="java.awt.Dimension" >31,42</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <ImageOn type="java.io.File">images/key.jpg</ImageOn>
+        <ImageOff type="java.io.File">images/key-off.jpg</ImageOff>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">PlayTone,1047</CustomCmd>
+    </widgets>
+    <widgets name="key9" type="Image">
+        <Location type="java.awt.Point" >373,168</Location>
+        <Size type="java.awt.Dimension" >31,42</Size>
+        <Active type="java.lang.Boolean">true</Active>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">NONE</OperationMode>
+        <ImageOn type="java.io.File">images/key.jpg</ImageOn>
+        <ImageOff type="java.io.File">images/key-off.jpg</ImageOff>
+        <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <CustomCmd type="java.lang.String">PlayTone,1175</CustomCmd>
+    </widgets>
+</config>

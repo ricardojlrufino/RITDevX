@@ -3,14 +3,23 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ricardojlrufino</groupId>
     <artifactId>ritdevx-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>RITDevX-Project</name>
 
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <parentDir>${project.basedir}/target</parentDir>
+        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+        <releaseVersion>${project.version}-alpha.${maven.build.timestamp}</releaseVersion>
     </properties>
+    
+    <scm>
+       <connection>scm:git:https://github.com/ricardojlrufino/RITDevX.git</connection>
+       <url>https://github.com/ricardojlrufino</url>
+       <developerConnection>scm:git:https://github.com/ricardojlrufino/RITDevX.git</developerConnection>
+    </scm>
 
     <modules>
         <module>RITDesigner</module>
@@ -53,6 +62,17 @@
             </plugin>
             
             <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-release-plugin</artifactId>
+               <version>2.4.2</version>
+               <configuration>
+                  <tagNameFormat>{releaseVersion}</tagNameFormat>
+                  <autoVersionSubmodules>true</autoVersionSubmodules>
+                  <releaseProfiles>releases</releaseProfiles>
+               </configuration>
+            </plugin>
+            
+  <!--           <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <executions>
@@ -63,7 +83,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
     
         </plugins>
     </build>
