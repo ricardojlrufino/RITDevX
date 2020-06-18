@@ -41,6 +41,8 @@ Desinger
 - [ ] Open Image Editor (like gimp) on Popup Menu...
 - [ ] Control + Z (Undo / Redo)
 - [x] Detect transparent image shape / border
+- [x] Relative image (open)
+- [ ] Relative image (save)
 
 ### Simulation
 
