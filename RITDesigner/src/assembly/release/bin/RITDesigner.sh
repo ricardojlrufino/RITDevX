@@ -35,4 +35,4 @@ if [[ "$@" != *"--"* ]] ; then
     JAVA_OPTIONS+=("-splash:$APPDIR/bin/splash.png")
 fi
 
-"$JAVA" "${JAVA_OPTIONS[@]}" com.ricardojlrufino.ritdevx.designer.RIDesignerMain "$@"
+"$JAVA" "${JAVA_OPTIONS[@]}" -Xms128m -Xmx384m com.ricardojlrufino.ritdevx.designer.RIDesignerMain "$@"
