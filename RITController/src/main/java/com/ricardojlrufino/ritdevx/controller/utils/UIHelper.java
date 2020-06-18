@@ -39,10 +39,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import com.ricardojlrufino.ritdevx.controller.configuration.HmiConfig;
 
 
 public final class UIHelper {
-
 
   public static File getOffFile(File file) {
     if (file == null)
@@ -57,8 +57,22 @@ public final class UIHelper {
 
   public static BufferedImage readImg(File file, JComponent component) {
     try {
-      if (file == null || !file.exists())
+      if (file == null)
         return null;
+      
+      // Check if is a relative path.
+      if (!file.exists() && HmiConfig.getLastLoaded() != null) {
+        
+        File lastLoaded = HmiConfig.getLastLoaded();
+        
+        File relative = new File(lastLoaded.getParentFile(), file.getPath());
+        
+        if(relative.exists()) {
+          return ImageIO.read(relative);
+        }
+        
+      }
+      
       return ImageIO.read(file);
     } catch (IOException e) {
       e.printStackTrace();

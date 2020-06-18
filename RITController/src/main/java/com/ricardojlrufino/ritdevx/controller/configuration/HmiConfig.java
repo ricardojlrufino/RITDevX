@@ -52,7 +52,8 @@ public class HmiConfig extends WidgetConfig {
   public static final String APP_NAME = "App";
 
   private List<WidgetConfig> widgets = new LinkedList<>();
-
+  
+  private static File lastLoaded;
 
   private static JAXBContext createJAXBContext() throws JAXBException {
     return JAXBContext.newInstance(
@@ -101,11 +102,12 @@ public class HmiConfig extends WidgetConfig {
   public static HmiConfig load(File file) throws IOException {
 
     try {
-
+      
       log.debug("loading config: " + file);
       JAXBContext jaxbContext = createJAXBContext();
       Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
       unmarshaller.setAdapter(createKeyValueAdapter(jaxbContext));
+      lastLoaded = file;
 
       return (HmiConfig) unmarshaller.unmarshal(file);
 
@@ -114,6 +116,10 @@ public class HmiConfig extends WidgetConfig {
       throw new IOException("Fail read file", e);
     }
 
+  }
+  
+  public static File getLastLoaded() {
+    return lastLoaded;
   }
 
   public static void save(HmiConfig config, File file) throws IOException {
