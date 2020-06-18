@@ -14,6 +14,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Make executable (build.sh)
+      run: chmod +x ./build.sh
     - name: Build with Maven
       run: ./build.sh
     - name: Upload binaries to release

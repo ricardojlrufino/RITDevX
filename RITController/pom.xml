@@ -11,7 +11,19 @@
 
     <properties>
         <jaxb.api.version>2.3.0</jaxb.api.version>
+        <opendevice.version>0.5.3-SNAPSHOT</opendevice.version>
     </properties>
+    
+    <repositories>
+        <repository>
+                <id>oss.sonatype.org</id>
+                <url>https://oss.sonatype.org/content/repositories/releases</url>
+        </repository>
+        <repository>
+                <id>oss.sonatype.org-snapshot</id>
+                <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
 
     <dependencies>
 
@@ -47,13 +59,13 @@
         <dependency>
             <groupId>io.opendevice</groupId>
             <artifactId>opendevice-core</artifactId>
-            <version>0.5.1-SNAPSHOT</version>
+            <version>${opendevice.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.opendevice</groupId>
             <artifactId>opendevice-connection-stream</artifactId>
-            <version>0.5.1-SNAPSHOT</version>
+            <version>${opendevice.version}</version>
         </dependency>
 
         <!-- File Serialization -->
