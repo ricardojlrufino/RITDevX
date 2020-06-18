@@ -107,7 +107,6 @@ public class RIDisplay extends JLayeredPane {
     add(comp, new Integer(currentLayer++));
     
     if (isClicable(comp)) {
-      log.debug("Add widget: " + comp.getName() + " - " + comp);
       
       comp.addMouseListener(widgetClickEvent);
 

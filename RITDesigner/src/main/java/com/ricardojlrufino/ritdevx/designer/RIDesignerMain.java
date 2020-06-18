@@ -16,7 +16,6 @@
  *******************************************************************************/
 package com.ricardojlrufino.ritdevx.designer;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
 
