@@ -16,9 +16,14 @@
  *******************************************************************************/
 package com.ricardojlrufino.ritdevx.controller;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import com.ricardojlrufino.ritdevx.controller.configuration.HmiConfig;
 
 /**
@@ -30,25 +35,45 @@ import com.ricardojlrufino.ritdevx.controller.configuration.HmiConfig;
 public class RIControllerMain {
 
   public static void main(String[] args) throws IOException {
-    //    try {
-    //      for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-    //        if ("Nimbus".equals(info.getName())) {
-    //          UIManager.setLookAndFeel(info.getClassName());
-    //          break;
-    //        }
-    //      }
-    //    } catch (Exception e) {
-    //      try {
-    //        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    //      } catch (Exception ex) {
-    //
-    //      }
-    // }
+    
+    // Set LookAndFeel ...
+    try {
+      for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+        if ("Nimbus".equals(info.getName())) {
+          UIManager.setLookAndFeel(info.getClassName());
+          break;
+        }
+      }
+    } catch (Exception e) {
+      try {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+      } catch (Exception ex) {
+
+      }
+    }
 
     RIController.configureLog4j();
 
-    File selectedFile = new File("/home/ricardo/tmp/interface.rhmi");
-
+//    File selectedFile = new File("/media/ricardo/Dados/Workspace/Arduino/RITDevX-Project/RITDesigner/src/assembly/release/examples/DemoKeyboard/interface.ritd");
+    
+    File selectedFile = null;
+    
+    if(args.length > 0) {
+      
+      selectedFile = new File(args[0]);
+    
+    }else {
+      
+      JFileChooser jfc = new JFileChooser();
+      jfc.setDialogTitle("Open");
+      jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+      
+      if (JFileChooser.APPROVE_OPTION == jfc.showOpenDialog(null)) {
+        selectedFile = jfc.getSelectedFile();
+      }
+      
+    }
+    
     HmiConfig hmiConfig = HmiConfig.load(selectedFile);
 
     RIController controller = new RIController(hmiConfig);
