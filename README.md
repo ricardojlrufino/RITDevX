@@ -1,7 +1,9 @@
 <h1 align="center">
   <br>
   <img src="docs/images/logo.svg" alt="RITDevX">
-  <br><!--  
+  <br>
+  <img src="https://github.com/ricardojlrufino/RITDevX/workflows/Build/badge.svg" />
+  <!--  
   <a href="https://app.codacy.com/manual/ricardojlrufino/RITDevX"> 
      <img src="https://api.codacy.com/project/badge/Grade/bd99fc0164cb405f9e995fe23789b62a"/>
   </a>
