@@ -19,12 +19,16 @@ package com.ricardojlrufino.ritdevx.controller.components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.Painter;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.DefaultStyledDocument;
@@ -38,6 +42,8 @@ import javax.swing.text.StyleConstants;
  */
 public class LogViewer extends JPanel {
 
+  private static final long serialVersionUID = 1L;
+  
   private final JScrollPane scroll;
   private final DefaultStyledDocument document;
   private Timer timer;
@@ -47,6 +53,8 @@ public class LogViewer extends JPanel {
   public LogViewer() {
 
     this.setLayout(new BorderLayout());
+ 
+    fixLaf();
 
     document = new DefaultStyledDocument();
     JTextPane consoleTextPane = new JTextPane(document);
@@ -70,16 +78,7 @@ public class LogViewer extends JPanel {
     DefaultCaret caret = (DefaultCaret) consoleTextPane.getCaret();
     caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
     consoleTextPane.setFocusTraversalKeysEnabled(false);
-
-    //    JPanel noWrapPanel = new JPanel(new BorderLayout());
-    //    noWrapPanel.setBackground(Color.BLACK);
-    //    noWrapPanel.setOpaque(true);
-    //    noWrapPanel.add(consoleTextPane);
-
-    //    scroll.setViewportView(noWrapPanel);
-    //    noWrapPanel.setBackground(Color.BLACK);
-    //    noWrapPanel.setOpaque(true);
-
+    
     this.timer = new Timer(100, (e) -> {
       if (isShowing() && newLinePrinted) {
         newLinePrinted = false;
@@ -91,6 +90,17 @@ public class LogViewer extends JPanel {
     this.add(scroll, BorderLayout.CENTER);
   }
 
+  /** FIX for Ninbus LAF (https://bugs.openjdk.java.net/browse/JDK-8058704) */
+  private static void fixLaf() {
+    UIManager.put("TextPane[Enabled].backgroundPainter", new Painter<JComponent>() {
+      @Override
+      public void paint(Graphics2D g, JComponent comp, int width, int height) {
+          g.setColor(comp.getBackground());
+          g.fillRect(0, 0, width, height);
+      }
+    });
+  }
+  
   public void append(String message) {
 
     try {
