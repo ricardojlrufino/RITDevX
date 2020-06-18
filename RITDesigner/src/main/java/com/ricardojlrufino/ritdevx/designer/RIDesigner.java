@@ -562,6 +562,7 @@ public class RIDesigner extends JFrame {
       jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
       
       if(lastOpenFile != null) jfc.setSelectedFile(lastOpenFile);
+      else jfc.setSelectedFile(new File(System.getProperty("user.dir")));
 
       if (JFileChooser.APPROVE_OPTION == jfc.showOpenDialog(this)) {
         
