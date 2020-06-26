@@ -22,6 +22,8 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,10 +45,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
+
+import com.ricardojlrufino.ritdevx.designer.components.JPlaceholderTextField;
 
 import jiconfont.IconCode;
 import jiconfont.IconFont;
@@ -62,6 +67,7 @@ public class IconCodeDialog extends JDialog {
   private JComboBox iconsComboBox;
   private JComboBox<Integer> sizeComboBox;
   private JCheckBox showNames = new JCheckBox();
+  private JTextField filterName = new JPlaceholderTextField("Filter...");
 
   private Border iconBorder = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 
@@ -108,16 +114,27 @@ public class IconCodeDialog extends JDialog {
       protected Boolean doInBackground() throws Exception {
 
         grid.removeAll();
-
+        
+        IconCode iconCode = iconCollection.getIcons().iterator().next();
+        Font iconFont = new Font(iconCode.getFontFamily(), Font.PLAIN, 24);
+        
+        String fiterName = filterName.getText().toLowerCase();
+        
         for (final IconCode icon : iconCollection.getIcons()) {
+          
+          if(!fiterName.isEmpty() && !icon.toString().toLowerCase().contains(fiterName)) continue;
+          
           JLabel label = new JLabel();
-          label.setIcon(IconFontSwing.buildIcon(icon, size, Color.BLACK));
+//          label.setIcon(IconFontSwing.buildIcon(icon, size, Color.BLACK));
           label.putClientProperty("IconCode", icon);
           label.addMouseListener(onSelectIconMouse);
           label.setToolTipText(icon.toString());
+   
+          label.setFont(iconFont);
+          label.setText(""+icon.getUnicode());
+          label.setForeground(Color.WHITE);
 
           if (showNamesOpt) {
-            label.setText(icon.toString());
             label.setPreferredSize(new Dimension(120, size + 10));
           } else {
             label.setHorizontalAlignment(JLabel.CENTER);
@@ -147,6 +164,7 @@ public class IconCodeDialog extends JDialog {
       @Override
       protected void done() {
         scrollPane.revalidate();
+        scrollPane.repaint();
       }
     };
 
@@ -162,12 +180,16 @@ public class IconCodeDialog extends JDialog {
 
     iconsComboBox.setSelectedIndex(0);
     sizeComboBox.setSelectedIndex(0);
+    filterName.setColumns(15);
 
-    showNames.setText("Show Names");
-    showNames.setSelected(false);
+//    showNames.setText("Show Names");
+//    showNames.setSelected(false);
 
     topPanel.add(iconsComboBox);
-    topPanel.add(showNames);
+//    topPanel.add(showNames);
+    
+    
+    topPanel.add(filterName);
     topPanel.add(sizeComboBox);
 
     //    JPanel butons = new JPanel(new FlowLayout());
@@ -197,6 +219,7 @@ public class IconCodeDialog extends JDialog {
     iconsComboBox.addActionListener(updateIconsAction);
     showNames.addActionListener(updateIconsAction);
     sizeComboBox.addActionListener(updateIconsAction);
+    filterName.addActionListener(updateIconsAction);
 
     onSelectIconMouse = new MouseAdapter() {
       @Override
