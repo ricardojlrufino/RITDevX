@@ -22,37 +22,48 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.ricardojlrufino.ritdevx.controller.components.BackgroudPanel;
+import com.ricardojlrufino.ritdevx.controller.components.NotificationPanel;
 import com.ricardojlrufino.ritdevx.controller.configuration.HmiConfig;
-import com.ricardojlrufino.ritdevx.controller.widgets.DefaultWidgetsFactory;
+import com.ricardojlrufino.ritdevx.controller.widgets.ButtonInterface;
 import com.ricardojlrufino.ritdevx.controller.widgets.OnOffInterface;
+import com.ricardojlrufino.ritdevx.controller.widgets.OperationMode;
 import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
+import com.ricardojlrufino.ritdevx.controller.widgets.factory.DefaultWidgetsFactory;
+import com.ricardojlrufino.ritdevx.controller.widgets.xchart.XChartWrapper;
 import br.com.criativasoft.opendevice.core.LocalDeviceManager;
 import br.com.criativasoft.opendevice.core.model.Device;
+import eu.hansolo.steelseries.extras.Led;
+import eu.hansolo.steelseries.gauges.AbstractGauge;
+import eu.hansolo.steelseries.gauges.DisplaySingle;
+import eu.hansolo.steelseries.gauges.SparkLine;
 
 /**
- * Frame where HMI are executed (controled by {@link RIController}).
+ * Component where HMI are displayed (controled by {@link RIController}).
  * 
  * @author Ricardo JL Rufino - (ricardo.jl.rufino@gmail.com)
  * @date 5 de jun de 2020
  */
-public class RIDisplay extends JLayeredPane {
+public class ControllerCanvas extends JLayeredPane {
 
   private static final long serialVersionUID = 1L;
+  private static final int START_LAYER = 5; // user widgets starts in this layer
 
-  private static final Logger log = LoggerFactory.getLogger(RIDisplay.class);
+  private static final Logger log = LoggerFactory.getLogger(ControllerCanvas.class);
 
   private WidgetManager widgetManager;
   private String title;
   private BackgroudPanel backgroudPanel;
-
-
-  private static final int START_LAYER = 5; // user widgets starts in this layer
+  private NotificationPanel notificationPanel; 
 
   private int currentLayer = START_LAYER;
   private HmiConfig config;
@@ -60,7 +71,7 @@ public class RIDisplay extends JLayeredPane {
   private RIController controller;
   private LocalDeviceManager deviceManager;
 
-  public RIDisplay(RIController controller, HmiConfig config) {
+  public ControllerCanvas(RIController controller, HmiConfig config) {
     super();
     this.controller = controller;
     this.config = config;
@@ -73,7 +84,9 @@ public class RIDisplay extends JLayeredPane {
   protected void initLayout() {
     setOpaque(true);
     backgroudPanel = new BackgroudPanel();
+    notificationPanel =  new NotificationPanel();
     add(backgroudPanel, new Integer(1));
+    add(notificationPanel, new Integer(2));
   }
 
 
@@ -82,7 +95,7 @@ public class RIDisplay extends JLayeredPane {
 
       widgetManager.init(config); // load configuration and initialize widgets
 
-      WidgetInfo appInfo = DefaultWidgetsFactory.createApp(RIDisplay.class); // define settings of application
+      WidgetInfo appInfo = DefaultWidgetsFactory.createApp(ControllerCanvas.class); // define settings of application
 
       // backgroud, etc...
       appInfo.restoreProperties(config, this);
@@ -103,31 +116,44 @@ public class RIDisplay extends JLayeredPane {
 
   public void addWidget(JComponent comp) {
     
-    // TODO: check layer !! (NOT IMPLEMENTED Yet)
-    add(comp, new Integer(currentLayer++));
+    Integer layer = (Integer) comp.getClientProperty(WidgetInfo.LAYER_PROPERTY);
     
-    if (isClicable(comp)) {
+    if(layer == null) layer = new Integer(START_LAYER);
+    else layer = new Integer(layer + START_LAYER);
+    
+    add(comp, new Integer(layer));
+    
+    if (isClickable(comp)) {
       
       comp.addMouseListener(widgetClickEvent);
 
       comp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
     }
+    
+    // Ony on Controler, the images are loaded using defaut ON state
+    if (comp instanceof OnOffInterface) {
+      OnOffInterface state = (OnOffInterface) comp;
+      state.off();
+    }
 
-    // Init device
 
-    //    Device device = new Device(deviceID++, DeviceType.DIGITAL);
-    //    device.setName(comp.getName());
-    //    deviceManager.addDevice(device);
-
-    // Add to eady access.
-    //    comp.putClientProperty(DEVICE_PROPERTY_KEY, device);
   }
 
 
-  private boolean isClicable(JComponent comp) {
-    // TODO: Implement, check if is a image only or chat or etc....
-    return comp instanceof OnOffInterface;
+  private boolean isClickable(JComponent comp) {
+    
+    if(comp instanceof ButtonInterface) {
+      
+      ButtonInterface btn = (ButtonInterface) comp;
+      
+      if(btn.getOperationMode() == OperationMode.SWITCH || btn.getOperationMode() == OperationMode.PUSH_BUTTON) {
+        return true;
+      }
+      
+    }
+    
+    return false;
   }
 
 
@@ -147,29 +173,53 @@ public class RIDisplay extends JLayeredPane {
 
         JComponent component = (JComponent) e.getSource();
 
-        if (component instanceof OnOffInterface) {
+        if (component instanceof ButtonInterface) {
 
           Device device = (Device) component.getClientProperty(RIController.DEVICE_PROPERTY_KEY);
 
-          OnOffInterface onoff = (OnOffInterface) component;
+          ButtonInterface onoff = (ButtonInterface) component;
 
-          if (onoff.hasCustomCmd()) {
 
-            String customCmd = onoff.getCustomCmd();
-
-            String[] cmds = customCmd.split(",");
-
-            deviceManager.sendCommand(cmds[0], cmds[1]);
-
-          } else {
-
-            onoff.toogle();
+          if(onoff.getOperationMode() == OperationMode.PUSH_BUTTON ) {
+            
+            onoff.on(); // update UI
+            if (device != null) device.on(); // send coomand
+            
+            // turn off after some delay
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+              @Override
+              public void run() {
+                onoff.off(); // update UI
+                if (device != null) device.off(); // send coomand
+              }
+            }, 100);
+            
+          }else {
+            
+            onoff.toogle(); // update UI
 
             if (device != null) {
               device.toggle(); // send coomand
             }
-
+            
           }
+          
+          // Send custom command
+          
+          if (onoff.hasCustomCmd()) {
+
+            String customCmd = onoff.getCustomCmd();
+            
+            customCmd = customCmd.replaceAll("\\$\\{value\\}", (onoff.isOn() ? 1 : 0)+"");
+
+            String[] cmds = customCmd.split(",");
+            
+            String[] values =  Arrays.copyOfRange(cmds, 1, cmds.length);
+
+            deviceManager.sendCommand(cmds[0], values);
+
+          } 
 
         }
 
@@ -179,7 +229,7 @@ public class RIDisplay extends JLayeredPane {
     }
 
   };
-
+  
   /**
    * Update value on device change.
    */
@@ -194,11 +244,51 @@ public class RIDisplay extends JLayeredPane {
       else
         state.off();
 
-    }
+    } else if (component instanceof AbstractGauge) {
+      
+      ((AbstractGauge) component).setValue(value);
+      
+    } else if (component instanceof eu.hansolo.steelseries.extras.Led) {
+      
+      Led led = (Led) component;
+      
+      if (value > 0)
+        led.setLedOn(true);
+      else
+        led.setLedOn(false);
+      
+    } else if (component instanceof DisplaySingle) {
+      
+      ((DisplaySingle) component).setLcdValue(value);
+      
+    } else if (component instanceof SparkLine) {
+      
+      ((SparkLine) component).addDataPoint(value);
+      
+    } 
 
   }
 
-
+  /**
+   * Received from Custom Commands
+   * @param component
+   * @param params
+   */
+  public void updateValueForComponent(JComponent component, List<Object> params) {
+    
+    if (component instanceof XChartWrapper) {
+      
+      XChartWrapper wrapper = (XChartWrapper) component;
+      
+      wrapper.addValues(params);
+      
+    } else if (params.size() == 1) {
+      
+      updateValueForComponent(component, Double.parseDouble(params.get(0).toString()));
+      
+    }
+    
+  }
 
   /* callend by : appInfo.restoreProperties */
   public void setBackgroudImage(File backgroudImage) {
@@ -229,4 +319,10 @@ public class RIDisplay extends JLayeredPane {
   public WidgetManager getWidgetManager() {
     return widgetManager;
   }
+  
+  public NotificationPanel getNotificationPanel() {
+    return notificationPanel;
+  }
+
+ 
 }
