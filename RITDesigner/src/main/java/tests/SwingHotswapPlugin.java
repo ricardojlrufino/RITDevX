@@ -58,6 +58,8 @@ public class SwingHotswapPlugin {
   RIDesigner frame;
 
   private static Class targetClass;
+  
+  private static long lastUpdate;
 
   /**
    * Application should create and inicialize plugin instance
@@ -95,11 +97,15 @@ public class SwingHotswapPlugin {
     //        }
     //        if (isTargetClass(clazz, WidgetSelectorPanel.class)) {
 
-    System.out.println("frame.hotswapTest [OK]: " + clazz);
 
     if (frame != null) {
       // use scheduler to run the refresh AFTER the class is replaced in classloader
-      scheduler.scheduleCommand(() -> frame.hotswapTest());
+      
+      if(lastUpdate == 0 || (System.currentTimeMillis() - lastUpdate > 3000)) {
+        scheduler.scheduleCommand(() -> frame.hotswapTest());
+        lastUpdate = System.currentTimeMillis();
+      }
+      
     }
     //        }
 
