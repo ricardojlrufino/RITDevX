@@ -1,37 +1,43 @@
 /*******************************************************************************
- * This file is part of RITDevX Controller project.
- * Copyright (c) 2020 Ricardo JL Rufino.
+ * This file is part of RITDevX Controller project. Copyright (c) 2020 Ricardo JL Rufino.
  *
- * This program is free software: you can redistribute it and/or modify  
- * it under the terms of the GNU General Public License as published by  
- * the Free Software Foundation, version 3 with Classpath Exception.
+ * This program is free software: you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation, version 3 with Classpath
+ * Exception.
  *
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License 
- * along with this program. See the included LICENSE file for details.
+ * You should have received a copy of the GNU General Public License along with this program. See
+ * the included LICENSE file for details.
  *******************************************************************************/
 package com.ricardojlrufino.ritdevx.controller.widgets.skinnable;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import com.ricardojlrufino.ritdevx.controller.widgets.ButtonInterface;
 import com.ricardojlrufino.ritdevx.controller.widgets.OnOffInterface;
+import com.ricardojlrufino.ritdevx.controller.widgets.OperationMode;
 import jiconfont.IconCode;
 import jiconfont.IconFont;
 import jiconfont.bundle.Bundle;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
-public class IconState extends JLabel implements OnOffInterface {
+public class IconState extends JLabel implements ButtonInterface {
 
   static { // load icon fonts..
     for (IconFont iconFont : Bundle.getIconFonts()) {
       IconFontSwing.register(iconFont);
+      // register font in GraphicsEnvironment
+      Font iconFonts = IconFontSwing.buildFont(iconFont.getFontFamily());
+      iconFonts = iconFonts.deriveFont(24);
+      GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(iconFonts);
     }
   }
 
@@ -44,10 +50,13 @@ public class IconState extends JLabel implements OnOffInterface {
   private Color colorOff = Color.RED;
   private IconCode iconOff = null;
 
+  private OperationMode operationMode;
+
   public IconState() {
     setSize(48, 48);
     setActive(false);
     setHorizontalAlignment(SwingConstants.CENTER);
+    setOperationMode(OperationMode.PUSH_BUTTON);
     updateIcon();
   }
 
@@ -117,10 +126,18 @@ public class IconState extends JLabel implements OnOffInterface {
     updateIcon();
   }
 
+  // ===================================
+  // OnOffInterface
+  // ===================================
+
   public String getCustomCmd() {
     return customCmd;
   }
 
+  /**
+   * Using a custom command by default result in {@link #operationMode} =
+   * {@link OperationMode#PUSH_BUTTON}
+   */
   public void setCustomCmd(String customCmd) {
     this.customCmd = customCmd;
   }
@@ -133,7 +150,6 @@ public class IconState extends JLabel implements OnOffInterface {
   @Override
   public void on() {
     setActive(true);
-
   }
 
   @Override
@@ -155,5 +171,12 @@ public class IconState extends JLabel implements OnOffInterface {
     return active;
   }
 
+  public OperationMode getOperationMode() {
+    return operationMode;
+  }
+
+  public void setOperationMode(OperationMode mode) {
+    this.operationMode = mode;
+  }
 
 }
