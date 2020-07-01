@@ -16,18 +16,25 @@
 
 <h4 align="center">RITDevX - Rapid Interface Tool for Devices Experiments</h4>
 
-RITDevX is a visual interface design tool, which allows the creation of interfaces to control and monitor real devices such as **Arduino** and **Raspberry**, allowing to develop experiments quickly.
+RITDevX is a visual interface design tool, which allows the creation of interfaces to control and monitor real devices such as **Arduino** and **Raspberry**, allowing to develop experiments quickly.  
 
-It consists mainly of two modules:
+You can see it as a serial plotter with steroids.
+
+It consists mainly in this modules:
 
 - **Designer** - Which is the tool to create / design interface, where all aspects are configured.  
 - **Controller** - It is the execution tool, which opens the layout defined by the Design module. It is responsible for communicating with devices using the [OpenDevice](https://github.com/OpenDevice/opendevice-lib-arduino) library (but can by extended). 
   This module can be *embedded* into an existing application or can run in *standalone mode*.  
 - **Arduino IDE Plugin** - Enable easy integration with the Arduino IDE, and more advanced integration with this [alternative version of the Arduino IDE](https://github.com/ricardojlrufino/Arduino/releases).  ( **TODO ***)
 
-  
+
+### Designer (preview)
 
 ![Demo](docs/images/intro.gif)
+
+### Controller (preview)
+
+![Controller](/media/ricardo/Dados/Workspace/Arduino/RITDevX-Project/docs/images/controller_preview.gif)
 
 ## Key features (Designer)
 
