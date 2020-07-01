@@ -17,10 +17,18 @@
 package com.ricardojlrufino.ritdevx.designer.view;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.Transparency;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.List;
 
@@ -29,9 +37,10 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.TransferHandler;
 
+import com.ricardojlrufino.ritdevx.controller.components.BackgroudPanel;
 import com.ricardojlrufino.ritdevx.controller.configuration.HmiConfig;
-import com.ricardojlrufino.ritdevx.controller.widgets.DefaultWidgetsFactory;
 import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
+import com.ricardojlrufino.ritdevx.controller.widgets.factory.DefaultWidgetsFactory;
 import com.ricardojlrufino.ritdevx.designer.RIDesigner;
 import com.ricardojlrufino.ritdevx.designer.components.GridDesignLayer;
 import com.ricardojlrufino.ritdevx.designer.events.ComponentMover;
@@ -48,7 +57,7 @@ import com.ricardojlrufino.ritdevx.designer.events.ComponentMover;
  * @author Ricardo JL Rufino - (ricardo.jl.rufino@gmail.com)
  * @date 13 de jun de 2020
  */
-public class RIDesignerCanvas extends JLayeredPane {
+public class DesignerCanvas extends JLayeredPane {
 
   private static final long serialVersionUID = 1L;
 
@@ -58,6 +67,7 @@ public class RIDesignerCanvas extends JLayeredPane {
   private RIDesigner designer;
   private ComponentMover dragger;
   private GridDesignLayer gridDesignLayer;
+  private BackgroudPanel backgroudPanel;
 
   // Application Properties
   // =======================
@@ -66,7 +76,7 @@ public class RIDesignerCanvas extends JLayeredPane {
   private String title;
   // SNAPtoGrid ?!?!
 
-  public RIDesignerCanvas(RIDesigner designer) {
+  public DesignerCanvas(RIDesigner designer) {
     this.designer = designer;
     setName(CANVAS_NAME);
     setOpaque(true);
@@ -74,7 +84,7 @@ public class RIDesignerCanvas extends JLayeredPane {
     setTransferHandler(new DropComponentHandler());
 
     // Set editable propertis to edit by user.
-    WidgetInfo info = DefaultWidgetsFactory.createApp(RIDesignerCanvas.class);
+    WidgetInfo info = DefaultWidgetsFactory.createApp(DesignerCanvas.class);
     info.addProperty("ShowGrid");
     info.addProperty("GridSize");
     info.addProperty("GridColor");
@@ -95,8 +105,10 @@ public class RIDesignerCanvas extends JLayeredPane {
 
   protected void initLayers() {
     gridDesignLayer = new GridDesignLayer(this);
+    backgroudPanel = new BackgroudPanel();
     setGridSize(gridSize);
-    add(gridDesignLayer, new Integer(1));
+    add(backgroudPanel, new Integer(1));
+    add(gridDesignLayer, new Integer(50));
   }
 
   public void setCurrentLayer(int currentLayer) {
@@ -124,11 +136,11 @@ public class RIDesignerCanvas extends JLayeredPane {
   }
 
   public void setBackgroudImage(File backgroudImage) {
-    this.gridDesignLayer.setBackgroudImage(backgroudImage);
+    this.backgroudPanel.setBackgroudImage(backgroudImage);
   }
 
   public File getBackgroudImage() {
-    return gridDesignLayer.getBackgroudImage();
+    return backgroudPanel.getBackgroudImage();
   }
 
   public void setGridSize(int size) {
@@ -155,11 +167,11 @@ public class RIDesignerCanvas extends JLayeredPane {
    */
   public void onDropWidget(WidgetInfo widget, Point point) throws Exception {
 
-    JComponent comp = widget.getFactory().create(widget, point);
+    JComponent comp = widget.getFactory().createForDesigner(widget, point);
     comp.putClientProperty(WidgetInfo.PROPERTY_KEY, widget);
 
     if (comp.getName() == null) {
-      JOptionPane.showMessageDialog(RIDesignerCanvas.this, "Name for Component is required, check WidgetFactory");
+      JOptionPane.showMessageDialog(DesignerCanvas.this, "Name for Component is required, check WidgetFactory");
       throw new IllegalStateException("Invalid component");
     }
 
@@ -170,9 +182,46 @@ public class RIDesignerCanvas extends JLayeredPane {
   public void addWidget(WidgetInfo widget, JComponent comp) {
 
     dragger.registerComponent(comp);
+    
+    if(comp.getClientProperty(WidgetInfo.LAYER_PROPERTY) != null) {
+      
+      Integer layer = (Integer) comp.getClientProperty(WidgetInfo.LAYER_PROPERTY);
+      
+      add(comp, new Integer(START_LAYER + layer));
+      
+    }else {
+      
+      comp.putClientProperty(WidgetInfo.LAYER_PROPERTY, 0);
+      
+      add(comp, new Integer(START_LAYER));
+      
+    }
 
-    add(comp, new Integer(START_LAYER));
+    comp.addPropertyChangeListener(WidgetInfo.LAYER_PROPERTY, new LayerChangeListener());
+    
+  }
+  
+  @Override
+  public void setLayer(Component c, int layer) {
+    
+    super.setLayer(c, layer);
+    
+    
+  }
+  
+  private class LayerChangeListener implements PropertyChangeListener{
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+      
+      Integer newLayer = (Integer) evt.getNewValue();
+      
+      JComponent comp = (JComponent) evt.getSource();
+      
+      DesignerCanvas.this.setLayer(comp, START_LAYER + newLayer);
+      
+    }
+    
   }
 
   /**
@@ -245,6 +294,28 @@ public class RIDesignerCanvas extends JLayeredPane {
     setBackgroudImage(null);
     removeAll();
     initLayers();
+  }
+
+  public BufferedImage printScreen(JComponent comp) {
+    
+    gridDesignLayer.setVisible(false);
+    backgroudPanel.setVisible(false);
+    
+    this.setOpaque(false);
+    
+    GraphicsConfiguration gfxConf = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+    
+    final BufferedImage image = gfxConf.createCompatibleImage(comp.getWidth(), comp.getHeight(),Transparency.TRANSLUCENT);
+    final Graphics2D g2 = image.createGraphics();
+    comp.paintAll(g2);
+    g2.dispose();
+    
+    this.setOpaque(true);
+    gridDesignLayer.setVisible(true);
+    backgroudPanel.setVisible(true);
+
+    return image;
+    
   }
 
 }
