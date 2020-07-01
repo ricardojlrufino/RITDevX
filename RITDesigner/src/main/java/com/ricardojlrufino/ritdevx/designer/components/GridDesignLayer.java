@@ -27,33 +27,40 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.JComponent;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
 import com.ricardojlrufino.ritdevx.controller.components.BackgroudPanel;
-import com.ricardojlrufino.ritdevx.designer.view.RIDesignerCanvas;
+import com.ricardojlrufino.ritdevx.designer.view.DesignerCanvas;
 
 /**
  * Draw grid, backgroud, and also make line guides for active component when draged.
- * This is usead as layer of {@link RIDesignerCanvas}  
+ * This is usead as layer of {@link DesignerCanvas}  
  * @author Ricardo JL Rufino - (ricardo.jl.rufino@gmail.com)
  * @date 2 de jun de 2020
  */
-public class GridDesignLayer extends BackgroudPanel {
+public class GridDesignLayer extends JPanel {
 
   private static final long serialVersionUID = 1L;
 
-  private RIDesignerCanvas canvas;
+  private DesignerCanvas canvas;
 
   private Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 5 }, 0);
   private Stroke normal = new BasicStroke(1);
 
-  private static JComponent currentComponent;
+  private static JComponent dragComponent;
+  private static JComponent selectedComponent;
+  private static JComponent hoverComponent;
 
   private boolean showGrid;
   private int gridSize;
   private Color gridColor = new Color(206, 206, 255);
+  
+  private static GridDesignLayer ref;
 
-  public GridDesignLayer(RIDesignerCanvas hmiDesignerCanvas) {
+  public GridDesignLayer(DesignerCanvas hmiDesignerCanvas) {
     this.canvas = hmiDesignerCanvas;
+    ref = this;
     setOpaque(false);
     setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
 
@@ -65,9 +72,11 @@ public class GridDesignLayer extends BackgroudPanel {
       }
     });
   }
-
-  public static void setCurrentComponent(JComponent currentComponent) {
-    GridDesignLayer.currentComponent = currentComponent;
+  
+  @Override
+  public boolean contains(int x, int y) {
+    // Alow pass mouse events.
+    return false;
   }
 
   public void setGridColor(Color gridColor) {
@@ -113,27 +122,79 @@ public class GridDesignLayer extends BackgroudPanel {
       }
     }
 
-    if (currentComponent != null) {
-      g2.setStroke(normal);
-      g2.setColor(Color.RED);
-      Rectangle bounds = currentComponent.getBounds();
-      Insets insets = currentComponent.getInsets();
-      int size = insets.top;
-      bounds.setBounds(bounds.x + size, bounds.y + size, bounds.width - size * 2, bounds.height - size * 2);
-
-      g2.drawLine(0, bounds.y, width, bounds.y);
-      g2.drawLine(0, bounds.y + bounds.height, width, bounds.y + bounds.height);
-
-      g2.drawLine(bounds.x, 0, bounds.x, height);
-      g2.drawLine(bounds.x + bounds.width, 0, bounds.x + bounds.width, height);
-
+    if (dragComponent != null) {
+      drawGuideLines(g2);
+    }
+    
+    if (selectedComponent != null) {
+      drawSelectedLines(selectedComponent, g2, true);
+    }
+    
+    if (hoverComponent != null) {
+      drawSelectedLines(hoverComponent, g2, false);
     }
 
     g2.dispose();
   }
+  
+ private void drawSelectedLines(JComponent comp, Graphics2D g2, boolean selected) {
+   
+    g2.setStroke(normal);
+    g2.setColor(Color.BLUE);
+    Rectangle bounds = comp.getBounds();
+    Insets insets = comp.getInsets();
+    int size = insets.top;
+    
+    bounds.setBounds(bounds.x + size, bounds.y + size, bounds.width - size * 2, bounds.height - size * 2);
+    g2.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+    
+    if(selected) {
+      int dragSize = 8;
+      g2.fillRect(bounds.x + bounds.width - dragSize, bounds.y + bounds.height - dragSize, dragSize, dragSize);
+    }
+    
+  }
+ 
+  private void drawGuideLines(Graphics2D g2) {
+    
+    int width = getWidth();
+    int height = getHeight();
+    
+    g2.setStroke(normal);
+    g2.setColor(Color.RED);
+    Rectangle bounds = dragComponent.getBounds();
+    Insets insets = dragComponent.getInsets();
+    int size = insets.top;
+    bounds.setBounds(bounds.x + size, bounds.y + size, bounds.width - size * 2, bounds.height - size * 2);
+
+    g2.drawLine(0, bounds.y, width, bounds.y);
+    g2.drawLine(0, bounds.y + bounds.height, width, bounds.y + bounds.height);
+
+    g2.drawLine(bounds.x, 0, bounds.x, height);
+    g2.drawLine(bounds.x + bounds.width, 0, bounds.x + bounds.width, height);
+    
+  }
 
   public void setGridSize(int size) {
     this.gridSize = size;
+  }
+
+
+  public static void setHoverComponent(JComponent hoverComponent) {
+    if(hoverComponent instanceof JLayeredPane) return;
+    GridDesignLayer.hoverComponent = hoverComponent;
+    ref.repaint();
+  }
+  
+  public static void setSelectedComponent(JComponent selectedComponent) {
+    if(selectedComponent instanceof JLayeredPane) return;
+    GridDesignLayer.selectedComponent = selectedComponent;
+    ref.repaint();
+  }
+  
+  public static void setDragComponent(JComponent currentComponent) {
+    if(currentComponent instanceof JLayeredPane) return;
+    GridDesignLayer.dragComponent = currentComponent;
   }
 
 }
