@@ -20,6 +20,16 @@
         <Active type="java.lang.Boolean">false</Active>
         <AutoScale type="java.lang.Boolean">false</AutoScale>
     </widgets>
+    <widgets name="Icon1" type="Icon">
+        <Location type="java.awt.Point" >256,229</Location>
+        <Size type="java.awt.Dimension" >48,48</Size>
+        <Layer type="java.lang.Integer">0</Layer>
+        <Active type="java.lang.Boolean">false</Active>
+        <IconOn type="jiconfont.icons.font_awesome.FontAwesome">LIGHTBULB_O</IconOn>
+        <ColorOn type="java.awt.Color" >0,255,0</ColorOn>
+        <ColorOff type="java.awt.Color" >255,0,0</ColorOff>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">PUSH_BUTTON</OperationMode>
+    </widgets>
     <widgets name="Led" type="Button">
         <Location type="java.awt.Point" >621,156</Location>
         <Size type="java.awt.Dimension" >128,128</Size>
@@ -28,6 +38,7 @@
         <ImageOn type="java.io.File">images/power_circle.png</ImageOn>
         <ImageOff type="java.io.File">images/power_circle-off.png</ImageOff>
         <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">SWITCH</OperationMode>
     </widgets>
     <widgets name="Led1" type="Led">
         <Location type="java.awt.Point" >30,48</Location>
