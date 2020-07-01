@@ -50,8 +50,8 @@ import javax.swing.TransferHandler;
 import javax.swing.border.EtchedBorder;
 
 import com.ricardojlrufino.ritdevx.controller.utils.UIHelper;
-import com.ricardojlrufino.ritdevx.controller.widgets.WidgetFactory;
 import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
+import com.ricardojlrufino.ritdevx.controller.widgets.factory.WidgetFactory;
 import com.ricardojlrufino.ritdevx.designer.RIDesigner;
 import com.ricardojlrufino.ritdevx.designer.components.JMultiLineToolTip;
 import com.ricardojlrufino.ritdevx.designer.components.WrapLayout;
@@ -186,6 +186,10 @@ public class WidgetSelectorPanel extends JPanel {
 
   public WidgetInfo getWidgetForImage() {
     return widgets.get("Image").clone();
-
   }
+  
+  public WidgetInfo getWidgetForButton() {
+    return widgets.get("Button").clone();
+  }
+  
 }

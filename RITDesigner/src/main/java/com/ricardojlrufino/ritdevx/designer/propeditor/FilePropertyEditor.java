@@ -96,12 +96,12 @@ public class FilePropertyEditor extends AbstractPropertyEditor implements AllowP
 
     File defaultFile = lastSelected;
     if (defaultFile == null)
-      defaultFile = FileSystemView.getFileSystemView().getHomeDirectory();
+      defaultFile = new File(System.getProperty("user.dir"));
 
     JFileChooser jfc = new JFileChooser(defaultFile);
 
     if (JFileChooser.APPROVE_OPTION == jfc.showOpenDialog(editor)) {
-      onSelect(jfc.getSelectedFile());
+      onSelect(new File(jfc.getSelectedFile().getAbsolutePath())); // avoid Shellfolder error on serialize..
     }
   }
 

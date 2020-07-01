@@ -21,9 +21,11 @@ import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.util.List;
 
+import javax.swing.JComponent;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 
+import com.ricardojlrufino.ritdevx.controller.configuration.VirtualProperty;
 import com.ricardojlrufino.ritdevx.designer.propeditor.ComboBoxPropertyEditor;
 
 /**
@@ -83,7 +85,14 @@ public class BeanPropertiesTabeModel extends AbstractTableModel {
       return descriptor.getName();
 
     try {
-      return descriptor.getReadMethod().invoke(bean);
+      
+      if(descriptor instanceof VirtualProperty) {
+        return descriptor.getReadMethod().invoke(bean, descriptor.getName());
+      }else {
+        return descriptor.getReadMethod().invoke(bean);
+      }
+      
+      
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -102,8 +111,18 @@ public class BeanPropertiesTabeModel extends AbstractTableModel {
       return;
     PropertyDescriptor descriptor = properties.get(rowIndex);
 
-    try {
-      descriptor.getWriteMethod().invoke(bean, value);
+    try { 
+      
+      if(descriptor instanceof VirtualProperty) {
+        descriptor.getWriteMethod().invoke(bean, descriptor.getName() ,value);
+      }else {
+        descriptor.getWriteMethod().invoke(bean, value);
+      }
+      
+      if(bean instanceof JComponent) {
+        ((JComponent) bean).repaint();
+      }
+      
     } catch (Exception e) {
       System.err.println("Fail setting property: " + descriptor.getName() + ", value: " + value);
       e.printStackTrace();

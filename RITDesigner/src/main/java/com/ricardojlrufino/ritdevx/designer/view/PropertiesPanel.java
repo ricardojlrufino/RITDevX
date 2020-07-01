@@ -33,7 +33,7 @@ import com.ricardojlrufino.ritdevx.designer.propeditor.PropertyEditorManagerInit
 /**
  * Class which store JTable for properties this uses {@link JTableProperty} and {@link BeanPropertiesTabeModel}. <br/>
  * 
- * The 'active' component for editing is defined used {@link #setCurrentComponent(JComponent)}
+ * The 'active' component for editing is defined used {@link #setSelectedComponent(JComponent)}
  * 
  * @author Ricardo JL Rufino
  */
@@ -98,7 +98,7 @@ public class PropertiesPanel extends JScrollPane {
    * @param c
    *          component
    */
-  public void setCurrentComponent(JComponent c) {
+  public void setSelectedComponent(JComponent c) {
 
     // End of cell edit when clicked out
     TableCellEditor cellEditor = table.getCellEditor();

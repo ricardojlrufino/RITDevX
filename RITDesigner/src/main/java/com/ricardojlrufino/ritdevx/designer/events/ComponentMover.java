@@ -336,8 +336,7 @@ public class ComponentMover extends MouseAdapter {
     destination.setLocation(locationX, locationY);
     destination.getParent().repaint();
 
-    BeanPropertiesTabeModel model = (BeanPropertiesTabeModel) table.getModel();
-    model.fireBeanPropertyUpdated("Location");
+    table.fireBeanPropertyUpdated("Location");
     // model.setValueAt(aValue, rowIndex, columnIndex);
   }
 

@@ -30,6 +30,7 @@
 package com.ricardojlrufino.ritdevx.designer.events;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,7 +52,7 @@ import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
 import com.ricardojlrufino.ritdevx.designer.RIDesigner;
 import com.ricardojlrufino.ritdevx.designer.components.GridDesignLayer;
 import com.ricardojlrufino.ritdevx.designer.components.ResizableBorder;
-import com.ricardojlrufino.ritdevx.designer.view.RIDesignerCanvas;
+import com.ricardojlrufino.ritdevx.designer.view.DesignerCanvas;
 
 import jiconfont.IconCode;
 
@@ -83,6 +84,10 @@ public final class MouseActionsListener implements MouseListener {
     this.designer = designer;
     this.borderDefault = comp.getBorder();
 
+    if (!(comp instanceof JLayeredPane)) {
+      comp.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+    }
+    
     if (borderDefault != null) {
       Insets borderInsets = borderDefault.getBorderInsets(comp);
       hoverBorder = new ResizableBorder(Color.BLUE, borderInsets.bottom);
@@ -115,7 +120,9 @@ public final class MouseActionsListener implements MouseListener {
       }
 
       try {
-        designer.getComponentListCombobox().setSelectedItem(comp.getName());
+        
+        designer.setSelectedComponent(comp);
+        
       } catch (Exception ex) {
         ex.printStackTrace();
       }
@@ -126,6 +133,14 @@ public final class MouseActionsListener implements MouseListener {
 
   }
 
+  
+  @Override
+  public void mouseEntered(MouseEvent e) {
+    if (!(comp instanceof JLayeredPane)) {
+      GridDesignLayer.setHoverComponent(comp);
+    }
+  }
+  
   /**
    * Set back to component default border
    * 
@@ -133,7 +148,9 @@ public final class MouseActionsListener implements MouseListener {
    */
   @Override
   public void mouseExited(MouseEvent e) {
-    comp.setBorder(borderDefault);
+    if(comp != designer.getSelectedComponent()) {
+      GridDesignLayer.setHoverComponent(null);
+    }
   }
 
   /**
@@ -144,17 +161,13 @@ public final class MouseActionsListener implements MouseListener {
    */
   @Override
   public void mousePressed(MouseEvent e) {
-    JComponent c = (JComponent) e.getSource();
-    designer.getPropertiesTable().setCurrentComponent(c);
-    //    designer.getEventsTable().setComponentName(comp.getName());
-    GridDesignLayer.setCurrentComponent(c);
+    designer.setSelectedComponent(comp);
+    GridDesignLayer.setDragComponent(comp); // show reference lines.
   }
 
   @Override
-  public void mouseEntered(MouseEvent e) {
-    if (!(comp instanceof JLayeredPane)) {
-      comp.setBorder(hoverBorder);
-    }
+  public void mouseReleased(MouseEvent e) {
+    GridDesignLayer.setDragComponent(null); // clear guide lines...
   }
 
   /**
@@ -189,7 +202,7 @@ public final class MouseActionsListener implements MouseListener {
 
     }
 
-    if (!RIDesignerCanvas.CANVAS_NAME.equals(comp.getName())) {
+    if (!DesignerCanvas.CANVAS_NAME.equals(comp.getName())) {
 
       popup.addSeparator();
 
@@ -201,17 +214,23 @@ public final class MouseActionsListener implements MouseListener {
       menuItem.addActionListener(e -> designer.cloneComponent(comp));
       popup.add(menuItem);
 
-      menuItem = new JMenuItem("Delete component");
+      menuItem = new JMenuItem("Delete");
       menuItem.addActionListener(e -> designer.deleteComponent(comp));
+      popup.add(menuItem);
+      
+      popup.addSeparator();
+      
+      menuItem = new JMenuItem("Move Up");
+      menuItem.addActionListener(e -> designer.moveUpDown(comp, true));
+      popup.add(menuItem);
+
+      menuItem = new JMenuItem("Move Down");
+      menuItem.addActionListener(e -> designer.moveUpDown(comp, false));
       popup.add(menuItem);
 
     }
 
   }
 
-  @Override
-  public void mouseReleased(MouseEvent e) {
-    GridDesignLayer.setCurrentComponent(null);
-  }
 
 }

@@ -46,6 +46,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -63,17 +64,21 @@ import com.ricardojlrufino.ritdevx.controller.WidgetManager;
 import com.ricardojlrufino.ritdevx.controller.components.ErrorDialog;
 import com.ricardojlrufino.ritdevx.controller.configuration.HmiConfig;
 import com.ricardojlrufino.ritdevx.controller.configuration.WidgetConfig;
-import com.ricardojlrufino.ritdevx.controller.widgets.DefaultWidgetsFactory;
-import com.ricardojlrufino.ritdevx.controller.widgets.WidgetFactory;
+import com.ricardojlrufino.ritdevx.controller.utils.UIHelper;
+import com.ricardojlrufino.ritdevx.controller.widgets.OnOffInterface;
 import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
+import com.ricardojlrufino.ritdevx.controller.widgets.factory.DefaultWidgetsFactory;
+import com.ricardojlrufino.ritdevx.controller.widgets.factory.WidgetFactory;
 import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.IconState;
+import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.ImageButton;
 import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.ImageState;
+import com.ricardojlrufino.ritdevx.designer.components.GridDesignLayer;
 import com.ricardojlrufino.ritdevx.designer.events.MouseActionsListener;
 import com.ricardojlrufino.ritdevx.designer.events.WidgetKeyListener;
 import com.ricardojlrufino.ritdevx.designer.events.WidgetResizeController;
 import com.ricardojlrufino.ritdevx.designer.propeditor.FilePropertyEditor;
 import com.ricardojlrufino.ritdevx.designer.view.PropertiesPanel;
-import com.ricardojlrufino.ritdevx.designer.view.RIDesignerCanvas;
+import com.ricardojlrufino.ritdevx.designer.view.DesignerCanvas;
 import com.ricardojlrufino.ritdevx.designer.view.WidgetSelectorPanel;
 
 /**
@@ -82,11 +87,11 @@ import com.ricardojlrufino.ritdevx.designer.view.WidgetSelectorPanel;
  * It manages the main components below:
  * <ul>
  * <li> {@link WidgetSelectorPanel} - List of available widget components  </li>
- * <li> {@link RIDesignerCanvas} - Draggable area of components, where layout is build  </li>
+ * <li> {@link DesignerCanvas} - Draggable area of components, where layout is build  </li>
  * <li> {@link PropertiesPanel} - Editable properties of selected component </li>
  * </ul>
  * Click and some editing features are also provided by {@link MouseActionsListener} with Popup menu.
- * The {@link RIDesignerCanvas} supports dnd from external files and create a {@link ImageState}
+ * The {@link DesignerCanvas} supports dnd from external files and create a {@link ImageState}
  * </p>
  * The list of available components is defined by the {@link WidgetFactory} classes, 
  * like {@link DefaultWidgetsFactory}, Defined in the <b>RIController</b> module;
@@ -108,12 +113,14 @@ public class RIDesigner extends JFrame {
   private WidgetManager widgetManager;
   private WidgetSelectorPanel widgetSelector;
   private JPanel canvasContainer;
-  private RIDesignerCanvas canvas;
+  private DesignerCanvas canvas;
   private JScrollPane widgetSelectorScroll;
   private PropertiesPanel propertiesTable;
 
   private TreeMap<String, JComponent> addedComponents;
   private JComboBox<String> componentListCombobox;
+  private JComponent selectedComponent;
+
   //  private EventsTable eventsTable;
   private JTabbedPane widgetSettingsPane;
   private JMenuBar menuBar;
@@ -147,8 +154,8 @@ public class RIDesigner extends JFrame {
 //    canvasContainer.setBackground(Color.WHITE);
     canvasContainer.setLayout(new BorderLayout());
 
-    canvas = new RIDesignerCanvas(this);
-    propertiesTable.setCurrentComponent(canvas);
+    canvas = new DesignerCanvas(this);
+    propertiesTable.setSelectedComponent(canvas);
 
     canvas.addMouseListener(new MouseActionsListener(canvas, this));
 
@@ -183,22 +190,20 @@ public class RIDesigner extends JFrame {
     screenShot.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        JComponent selectedItem = (JComponent) propertiesTable.getComponentForTable();
-        GraphicsConfiguration gfxConf = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice()
-            .getDefaultConfiguration();
-        final BufferedImage IMAGE = gfxConf.createCompatibleImage(selectedItem.getWidth(), selectedItem.getHeight(),
-                                                                  Transparency.TRANSLUCENT);
-        final Graphics2D G2 = IMAGE.createGraphics();
-        selectedItem.paintAll(G2);
-        G2.dispose();
+        
+        JComponent selectedItem = canvas;
+//        JComponent selectedItem = (JComponent) propertiesTable.getComponentForTable();
+        
         try {
-          ImageIO.write(IMAGE, "png",
-                        new File(
-                            "/media/ricardo/Dados/Workspace/Arduino/HMIDesignerTool/src/main/resources/icons/widgets/"
-                                 + selectedItem.getClass().getSimpleName() + ".png"));
+          BufferedImage image = canvas.printScreen(selectedItem);
+          File file = new File("/tmp/" + selectedItem.getClass().getSimpleName() + ".png");
+          ImageIO.write(image, "png", file);
+          
+          JOptionPane.showMessageDialog(RIDesigner.this, "Saved: " + file);
         } catch (IOException e1) {
           e1.printStackTrace();
         }
+        
       }
     });
     propertiesContainer.add(screenShot, BorderLayout.SOUTH);
@@ -315,7 +320,7 @@ public class RIDesigner extends JFrame {
     saveAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
 
     JMenuItem saveAsAction = new JMenuItem("Save as");
-    saveAsAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.SHIFT_MASK));
+//    saveAsAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.SHIFT_MASK));
 
     JMenuItem exitAction = new JMenuItem("Exit");
     exitAction.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
@@ -336,7 +341,7 @@ public class RIDesigner extends JFrame {
     newAction.addActionListener(e -> handleNewAction());
     openAction.addActionListener(e -> handleOpenAction());
     openTestAction.addActionListener(e -> {
-      File selectedFile = new File("/media/ricardo/Dados/Workspace/Arduino/RITDevX-Project/PRIVATE_NOTES/HMI_DESIGN_IMAGES/MODELO_TECLADO/interface.ritd");
+      File selectedFile = new File("/media/ricardo/Dados/Workspace/Arduino/RITDevX-Project/PRIVATE_NOTES/interface.ritd");
       handleOpenAction(selectedFile);
     });
     
@@ -392,7 +397,7 @@ public class RIDesigner extends JFrame {
 
     widgetManager.registerComponent(comp);
 
-    propertiesTable.setCurrentComponent((JComponent) comp);
+    propertiesTable.setSelectedComponent((JComponent) comp);
 
     comp.requestFocus();
 
@@ -407,10 +412,10 @@ public class RIDesigner extends JFrame {
     comp.addMouseListener(new MouseActionsListener(comp, this));
     comp.addKeyListener(new WidgetKeyListener(propertiesTable, addedComponents, componentListCombobox));
 
-    // Ony on Designer, the images are loaded using defaut ON state
-    if (comp instanceof ImageState) {
-      ImageState state = (ImageState) comp;
-      state.setActive(true);
+    // Ony on Designer, the images are loaded using defaut OFF state
+    if (comp instanceof OnOffInterface) {
+      OnOffInterface state = (OnOffInterface) comp;
+      state.off();
     }
 
     if (askSelect) {
@@ -418,6 +423,11 @@ public class RIDesigner extends JFrame {
       SwingUtilities.invokeLater(() -> {
 
         if (widget.getComponentClass().equals(ImageState.class)) {
+          if (!widget.hasDefaultValue("ImageOn"))
+            propertiesTable.fireEditProperty("ImageOn");
+        }
+        
+        if (widget.getComponentClass().equals(ImageButton.class)) {
           if (!widget.hasDefaultValue("ImageOn"))
             propertiesTable.fireEditProperty("ImageOn");
         }
@@ -436,8 +446,17 @@ public class RIDesigner extends JFrame {
     List<WidgetInfo> list = new LinkedList<>();
 
     for (File file : files) {
+      
+      WidgetInfo widgetInfo = null;
+      
+      File offFile = UIHelper.getOffFile(file);
+      
+      if(offFile != null) {
+        widgetInfo = widgetSelector.getWidgetForButton();
+      }else {
+        widgetInfo = widgetSelector.getWidgetForImage();
+      }
 
-      WidgetInfo widgetInfo = widgetSelector.getWidgetForImage();
       widgetInfo.setDefaultValue("ImageOn", file);
 
       list.add(widgetInfo);
@@ -461,15 +480,16 @@ public class RIDesigner extends JFrame {
         String selected = (String) e.getItem();
         c = widgetManager.getWidgetComponent(selected);
         if (c != null) {
-          propertiesTable.setCurrentComponent(c);
+          
+          setSelectedComponent(c);
+          
           //          eventsTable.setComponentName(c.getName());
         }
       }
     }
   };
 
-  
-
+ 
   public JComboBox<String> getComponentListCombobox() {
     return componentListCombobox;
   }
@@ -609,7 +629,7 @@ public class RIDesigner extends JFrame {
     addedComponents.clear();
     componentListCombobox.removeAllItems();
 
-    propertiesTable.setCurrentComponent(canvas);
+    propertiesTable.setSelectedComponent(canvas);
     addedComponents.put(canvas.getName(), canvas);
     componentListCombobox.addItem(canvas.getName());
     componentListCombobox.setSelectedItem(canvas.getName());
@@ -620,6 +640,8 @@ public class RIDesigner extends JFrame {
    * Test method.. ignore.
    */
   public void hotswapTest() {
+    System.out.println("frame.hotswapTest [OK]: " + this);
+    widgetManager.loadAvailableWidgets(); // force reload
     widgetSelector = new WidgetSelectorPanel(this);
     widgetSelectorScroll.getViewport().setView(widgetSelector);
   }
@@ -650,10 +672,37 @@ public class RIDesigner extends JFrame {
     widgetManager.remove(comp);
     addedComponents.remove(comp.getName());
     componentListCombobox.removeItem(comp.getName());
+    GridDesignLayer.setSelectedComponent(null);
 
     parent.remove(comp);
     parent.repaint();
 
+  }
+  
+  public void setSelectedComponent(JComponent comp) {
+    if(comp != selectedComponent) {
+      
+      comp.requestFocus();
+      
+      this.selectedComponent = comp;
+      
+      getComponentListCombobox().setSelectedItem(comp.getName());
+      
+      propertiesTable.setSelectedComponent(comp);
+      
+      if(comp != canvas) {
+        GridDesignLayer.setSelectedComponent(comp);
+      }else {
+        GridDesignLayer.setSelectedComponent(null); // clear selection
+        GridDesignLayer.setHoverComponent(null);
+        GridDesignLayer.setDragComponent(null);
+      }
+      
+    }
+  }
+  
+  public JComponent getSelectedComponent() {
+    return selectedComponent;
   }
 
   public void renameComponent(JComponent comp) {
@@ -700,5 +749,25 @@ public class RIDesigner extends JFrame {
     addWidget(component, false);
 
   }
+
+  /**
+   * Move component in Layers UP / Down 
+   */
+  public void moveUpDown(JComponent comp, boolean up) {
+    
+    Integer position = (Integer) comp.getClientProperty(WidgetInfo.LAYER_PROPERTY);
+    
+    if(up) {
+      position++;
+    }else{
+      position--;
+    }
+    
+    comp.putClientProperty(WidgetInfo.LAYER_PROPERTY, position);
+    
+    propertiesTable.getTable().fireBeanPropertyUpdated("Layer");
+  }
+
+
 
 }

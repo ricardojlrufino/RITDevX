@@ -51,7 +51,7 @@ import com.ricardojlrufino.ritdevx.designer.view.PropertiesPanel;
  */
 public class WidgetResizeController extends MouseAdapter implements MouseMotionListener {
 
-  private static final int RESIZE_AREA = 5;
+  private static final int RESIZE_AREA = 8;
 //  private static final int BORDER_SIZE = 1;
 //  private static final int ANCHOR_LOC = 2;
 
@@ -85,7 +85,7 @@ public class WidgetResizeController extends MouseAdapter implements MouseMotionL
 
   private void showResizing() {
     comp.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
-    comp.setBorder(resizableBorder);
+//    comp.setBorder(resizableBorder);
   }
 
   private boolean isOnBorder(MouseEvent e) {
@@ -108,7 +108,7 @@ public class WidgetResizeController extends MouseAdapter implements MouseMotionL
     resizing = false;
     comp.setCursor(Cursor.getDefaultCursor());
     comp.setBorder(borderDefault);
-    GridDesignLayer.setCurrentComponent(null);
+    GridDesignLayer.setDragComponent(null);
     comp.getParent().repaint();
   }
 
@@ -137,7 +137,7 @@ public class WidgetResizeController extends MouseAdapter implements MouseMotionL
       try {
         comp.setSize(e.getX(), e.getY());
 
-        GridDesignLayer.setCurrentComponent(comp);
+        GridDesignLayer.setDragComponent(comp);
 
         // Set min size...
         int minSize = 15;

@@ -39,6 +39,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import com.ricardojlrufino.ritdevx.controller.utils.UIHelper;
 import com.ricardojlrufino.ritdevx.designer.view.PropertiesPanel;
 
 /**
@@ -96,21 +97,27 @@ public class WidgetKeyListener implements KeyListener {
     int currX = c.getLocation().x;
     int currY = c.getLocation().y;
     int key = e.getKeyCode();
+    int steps = e.isControlDown() ? 5 : 1;
+    
     switch (key) {
     case KeyEvent.VK_RIGHT:
-      c.setLocation(++currX, currY);
+      c.setLocation(currX+steps, currY);
+      UIHelper.repaintParent(c);
       propertiesTable.getTable().fireBeanPropertyUpdated("Location");
       break;
     case KeyEvent.VK_LEFT:
-      c.setLocation(--currX, currY);
+      c.setLocation(currX-steps, currY);
+      UIHelper.repaintParent(c);
       propertiesTable.getTable().fireBeanPropertyUpdated("Location");
       break;
     case KeyEvent.VK_UP:
-      c.setLocation(currX, --currY);
+      c.setLocation(currX, currY-steps);
+      UIHelper.repaintParent(c);
       propertiesTable.getTable().fireBeanPropertyUpdated("Location");
       break;
     case KeyEvent.VK_DOWN:
-      c.setLocation(currX, ++currY);
+      c.setLocation(currX, currY+steps);
+      UIHelper.repaintParent(c);
       propertiesTable.getTable().fireBeanPropertyUpdated("Location");
       break;
     }
