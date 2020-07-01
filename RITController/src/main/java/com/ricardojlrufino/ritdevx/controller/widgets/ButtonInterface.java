@@ -18,18 +18,22 @@ package com.ricardojlrufino.ritdevx.controller.widgets;
 
 /**
  * Identifies components that can transition between two ON and OFF states. <br/>
+ * It also has an optional 'CustomCmd' attribute, which identifies which command should be sent when
+ * it is pressed
  * 
  * @author Ricardo JL Rufino - (ricardo.jl.rufino@gmail.com)
  * @date 13 de jun de 2020
  */
-public interface OnOffInterface {
+public interface ButtonInterface extends OnOffInterface {
 
-  public void on();
+  public boolean hasCustomCmd();
 
-  public void off();
+  public String getCustomCmd();
 
-  public void toogle();
+  public void setCustomCmd(String customCmd);
+  
+  public OperationMode getOperationMode();
 
-  public boolean isOn();
+  public void setOperationMode(OperationMode mode);
 
 }

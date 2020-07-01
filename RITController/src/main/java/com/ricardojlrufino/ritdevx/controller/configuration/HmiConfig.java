@@ -86,6 +86,7 @@ public class HmiConfig extends WidgetConfig {
         eu.hansolo.steelseries.tools.ThresholdType.class,
         eu.hansolo.steelseries.tools.TicklabelOrientation.class,
         eu.hansolo.steelseries.tools.Direction.class,
+        eu.hansolo.steelseries.tools.SmoothingFunction.class,
         //
         OperationMode.class);
   }

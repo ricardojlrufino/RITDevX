@@ -17,5 +17,5 @@
 package com.ricardojlrufino.ritdevx.controller.widgets;
 
 public enum OperationMode {
-  NONE, SENSOR, BUTTON_ONOFF, PUSH_BUTTON
+  SWITCH, PUSH_BUTTON, SENSOR
 }

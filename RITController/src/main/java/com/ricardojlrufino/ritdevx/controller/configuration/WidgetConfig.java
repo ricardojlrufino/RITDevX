@@ -24,8 +24,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.ricardojlrufino.ritdevx.controller.configuration.jaxb.KeyValue;
-import com.ricardojlrufino.ritdevx.controller.widgets.DefaultWidgetsFactory;
 import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
+import com.ricardojlrufino.ritdevx.controller.widgets.factory.DefaultWidgetsFactory;
 
 
 /**

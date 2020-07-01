@@ -25,7 +25,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JComponent;
+import javax.swing.JLayeredPane;
+import com.ricardojlrufino.ritdevx.controller.configuration.VirtualProperty;
 import com.ricardojlrufino.ritdevx.controller.configuration.WidgetConfig;
+import com.ricardojlrufino.ritdevx.controller.widgets.factory.WidgetFactory;
 import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.ImageState;
 
 /**
@@ -39,6 +42,8 @@ public class WidgetInfo {
   public static DataFlavor dataFlavor = new DataFlavor(WidgetInfo.class, "WidgetInfo");
 
   public static String PROPERTY_KEY = "widget";
+  
+  public static String LAYER_PROPERTY = "Layer";
 
   private Class<?> componentClass;
 
@@ -104,9 +109,20 @@ public class WidgetInfo {
     return factory;
   }
 
-  public void addProperty(String propertyName) {
+  public PropertyDescriptor addProperty(String propertyName) {
     try {
-      availableProperties.add(new PropertyDescriptor(propertyName, componentClass));
+      PropertyDescriptor propertyDescriptor = new PropertyDescriptor(propertyName, componentClass);
+      availableProperties.add(propertyDescriptor);
+      return propertyDescriptor;
+    } catch (IntrospectionException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+  
+  public void addVirtualProperty(String propertyName, Class<?> propertyClass) {
+    try {
+      availableProperties.add(new VirtualProperty(propertyName, componentClass, propertyClass));
     } catch (IntrospectionException e) {
       e.printStackTrace();
     }
@@ -170,6 +186,13 @@ public class WidgetInfo {
     return (WidgetInfo) component.getClientProperty(PROPERTY_KEY);
 
   }
+  
+  /**
+   * Virtual properties are properties that are not declared in components and are stored as: 'component.putClientProperty'
+   */
+  public boolean isVirtualPropery(String property) {
+    return "layer".equals(property.toLowerCase());
+  }
 
   /**
    * Extract all values from JComponent and create a WidgetConfig for storage.
@@ -179,11 +202,18 @@ public class WidgetInfo {
     config.setWidgetType(getName());
     config.setName(component.getName());
 
-    for (PropertyDescriptor propertyDescriptor : availableProperties) {
+    for (PropertyDescriptor property : availableProperties) {
       try {
-        Method readMethod = propertyDescriptor.getReadMethod();
-        Object value = readMethod.invoke(component, new Object[] {});
-        config.addValue(propertyDescriptor.getName(), value);
+        
+        if(isVirtualPropery(property.getName())) {
+          Object clientProperty = component.getClientProperty(property.getName());
+          config.addValue(property.getName(), clientProperty);
+        }else {
+          Method readMethod = property.getReadMethod();
+          Object value = readMethod.invoke(component, new Object[] {});
+          config.addValue(property.getName(), value);
+        }
+        
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -203,9 +233,18 @@ public class WidgetInfo {
     HashMap<String, Object> valuesMap = widgetConfig.getValuesMap();
     for (String name : valuesMap.keySet()) {
       PropertyDescriptor property = this.getProperty(name);
-      if (property != null) {
-        property.getWriteMethod().invoke(component, valuesMap.get(name));
+      try {
+        if (property != null) {
+          if(isVirtualPropery(property.getName())) {
+            component.putClientProperty(property.getName(), valuesMap.get(name));
+          }else {
+            property.getWriteMethod().invoke(component, valuesMap.get(name));
+          }
+        } 
+      } catch (Exception e) {
+        e.printStackTrace();
       }
+
     }
 
     return component;

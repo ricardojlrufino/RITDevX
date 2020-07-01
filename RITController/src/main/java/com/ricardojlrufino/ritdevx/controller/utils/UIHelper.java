@@ -29,6 +29,7 @@
  *******************************************************************************/
 package com.ricardojlrufino.ritdevx.controller.utils;
 
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -57,8 +58,8 @@ public final class UIHelper {
 
   public static BufferedImage readImg(File file, JComponent component) {
     try {
-      if (file == null)
-        return null;
+      
+      if (file == null) return null;
       
       // Check if is a relative path.
       if (!file.exists() && HmiConfig.getLastLoaded() != null) {
@@ -74,7 +75,9 @@ public final class UIHelper {
       }
       
       return ImageIO.read(file);
+      
     } catch (IOException e) {
+      System.err.println("file: " + file);
       e.printStackTrace();
       return null;
     } finally {
@@ -156,6 +159,17 @@ public final class UIHelper {
       resource = UIHelper.class.getResource("/icons/widgets/no-image.png");
 
     return new ImageIcon(Toolkit.getDefaultToolkit().getImage(resource));
+  }
+  
+  /**
+   * Repaint parent region of component
+   * @param component
+   */
+  public static void repaintParent(JComponent component) {
+    if( component.getParent() != null) {
+      Rectangle bounds = component.getBounds();
+      component.getParent().repaint(bounds.x - 2, bounds.y - 2, component.getWidth() + 4, component.getHeight() + 4);
+    }
   }
 
 }
