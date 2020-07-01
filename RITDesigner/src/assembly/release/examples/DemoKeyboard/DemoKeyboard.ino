@@ -1,6 +1,6 @@
 //******************************************************************************
 // See tutorial: 
-// UPDATE TUTORIAL
+// https://opendevice.atlassian.net/wiki/spaces/RITDevX/pages/1581908126/User+Guide
 //******************************************************************************
 
 #include <OpenDevice.h>
