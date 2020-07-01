@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License 
  * along with this program. See the included LICENSE file for details.
  *******************************************************************************/
-package com.ricardojlrufino.ritdevx.controller.widgets;
+package com.ricardojlrufino.ritdevx.controller.widgets.factory;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -39,6 +39,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import com.ricardojlrufino.ritdevx.controller.configuration.WidgetConfig;
+import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
 
 public class SwingBasicFactory implements WidgetFactory {
 
@@ -97,7 +99,7 @@ public class SwingBasicFactory implements WidgetFactory {
   }
 
   @Override
-  public JComponent create(WidgetInfo info, Point point) {
+  public JComponent createForDesigner(WidgetInfo info, Point point) {
     String name = null;
     
     String componentClass = info.getName();
@@ -182,6 +184,12 @@ public class SwingBasicFactory implements WidgetFactory {
     }
 
     return component;
+  }
+  
+  @Override
+  public JComponent createAndRestore(WidgetInfo info, WidgetConfig widgetConfig) throws Exception {
+    // TODO Auto-generated method stub
+    return null;
   }
 
   public JComponent setSizeBounds(JComponent comp, Point p, Dimension size) {

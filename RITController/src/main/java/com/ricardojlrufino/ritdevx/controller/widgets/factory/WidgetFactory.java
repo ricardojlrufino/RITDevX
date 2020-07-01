@@ -14,11 +14,13 @@
  * You should have received a copy of the GNU General Public License 
  * along with this program. See the included LICENSE file for details.
  *******************************************************************************/
-package com.ricardojlrufino.ritdevx.controller.widgets;
+package com.ricardojlrufino.ritdevx.controller.widgets.factory;
 
 import java.awt.Point;
 import java.util.List;
 import javax.swing.JComponent;
+import com.ricardojlrufino.ritdevx.controller.configuration.WidgetConfig;
+import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
 
 /**
  * Interface that defines widget builders, and for initializing them for both Designer and
@@ -39,11 +41,16 @@ public interface WidgetFactory {
   public List<WidgetInfo> list();
 
   /**
-   * Create instante of {@link WidgetInfo} reated component
+   * Create instante of {@link WidgetInfo} related component
    * @param info
    * @param point - drop point location
    */
-  public JComponent create(WidgetInfo info, Point point) throws Exception;
+  public JComponent createForDesigner(WidgetInfo info, Point point) throws Exception;
 
+  /**
+   * Create instante of {@link WidgetInfo} related component and restores properties stored in {@link WidgetConfig}
+   * @param widgetConfig 
+   */
+  public JComponent createAndRestore(WidgetInfo info, WidgetConfig widgetConfig) throws Exception;
 
 }
