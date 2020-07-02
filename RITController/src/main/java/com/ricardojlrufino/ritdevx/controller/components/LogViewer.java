@@ -25,6 +25,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
 import javax.swing.Painter;
 import javax.swing.Timer;
@@ -37,12 +38,17 @@ import javax.swing.text.StyleConstants;
 
 /**
  * Logview with auto scrolll. 
+ * 
+ * FIXME: Log must be clear to avoid OutOfMemory...
+ * 
  * @author Ricardo JL Rufino - (ricardo.jl.rufino@gmail.com)
  * @date 14 de jun de 2020
  */
 public class LogViewer extends JPanel {
 
   private static final long serialVersionUID = 1L;
+
+  private static final int MAX_TEXT_BUFFER = 10000;
   
   private final JScrollPane scroll;
   private final DefaultStyledDocument document;
@@ -104,6 +110,12 @@ public class LogViewer extends JPanel {
   public void append(String message) {
 
     try {
+      
+      //remove old..
+      if(document.getLength() > MAX_TEXT_BUFFER) {
+        document.remove(0, 1000);
+      }
+      
       document.insertString(document.getLength(), message, stdOutStyle);
       newLinePrinted = true;
 
@@ -141,6 +153,27 @@ public class LogViewer extends JPanel {
     frame.setTitle("Logs");
     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     frame.getContentPane().add(logViewer);
+    frame.pack();
+    frame.setVisible(true);
+    return frame;
+  }
+  
+  /**
+   * Display logs in a new frame
+   * 
+   * @param logViewer
+   * @return {@link JFrame} with {@link LogViewer} in contentPane
+   */
+  public static JFrame display(LogViewer logViewer, RawLogViewer rawLogViewer) {
+    JFrame frame = new JFrame();
+    frame.setTitle("Logs");
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    
+    JSplitPane pane = new JSplitPane();
+    pane.setLeftComponent(logViewer);
+    pane.setRightComponent(rawLogViewer);
+    pane.setDividerLocation(0.8f);
+    frame.getContentPane().add(pane);
     frame.pack();
     frame.setVisible(true);
     return frame;

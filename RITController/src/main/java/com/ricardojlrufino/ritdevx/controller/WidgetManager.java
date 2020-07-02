@@ -29,11 +29,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.ricardojlrufino.ritdevx.controller.configuration.HmiConfig;
 import com.ricardojlrufino.ritdevx.controller.configuration.WidgetConfig;
-import com.ricardojlrufino.ritdevx.controller.widgets.DefaultWidgetsFactory;
-import com.ricardojlrufino.ritdevx.controller.widgets.GaugesSteelSeriesFactory;
-import com.ricardojlrufino.ritdevx.controller.widgets.WidgetFactory;
 import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
-import com.ricardojlrufino.ritdevx.controller.widgets.XChatWidgetsFactory;
+import com.ricardojlrufino.ritdevx.controller.widgets.factory.DefaultWidgetsFactory;
+import com.ricardojlrufino.ritdevx.controller.widgets.factory.GaugesSteelSeriesFactory;
+import com.ricardojlrufino.ritdevx.controller.widgets.factory.WidgetFactory;
+import com.ricardojlrufino.ritdevx.controller.widgets.factory.XChatWidgetsFactory;
 
 /**
  * Store widgets definitions ({@link WidgetInfo}) and inialized representation of widgets (JComponent).
@@ -53,22 +53,7 @@ public class WidgetManager {
 
 
   public WidgetManager() {
-
-    // Load all widgets..
-    WidgetFactory[] widgetFactories = new WidgetFactory[] {
-        new DefaultWidgetsFactory(),
-        new XChatWidgetsFactory(),
-        new GaugesSteelSeriesFactory()
-    };
-
-    for (WidgetFactory widgetFactory : widgetFactories) {
-
-      List<WidgetInfo> list = widgetFactory.list();
-      for (WidgetInfo widgetInfo : list) {
-        availableWidgets.put(widgetInfo.getName(), widgetInfo);
-      }
-    }
-
+    loadAvailableWidgets();
   }
 
   public Map<String, WidgetInfo> getAvailableWidgets() {
@@ -106,6 +91,29 @@ public class WidgetManager {
     return init(config);
 
   }
+  
+  /**
+   * Init widgets from {@link WidgetFactory}
+   */
+  public void loadAvailableWidgets() {
+    
+    // Load all widgets..
+    WidgetFactory[] widgetFactories = new WidgetFactory[] {
+        new DefaultWidgetsFactory(),
+        new XChatWidgetsFactory(),
+        new GaugesSteelSeriesFactory()
+    };
+    
+    availableWidgets.clear();
+
+    for (WidgetFactory widgetFactory : widgetFactories) {
+
+      List<WidgetInfo> list = widgetFactory.list();
+      for (WidgetInfo widgetInfo : list) {
+        availableWidgets.put(widgetInfo.getName(), widgetInfo);
+      }
+    }
+  }
 
   /**
    * Create JComponent and restore settings from widgetConfig
@@ -118,15 +126,12 @@ public class WidgetManager {
 
     try {
       Class<?> componentClass = widgetInfo.getComponentClass();
-
-      // TODO: use fractory ???
-      JComponent component = (JComponent) componentClass.newInstance();
-      widgetInfo.restoreProperties(widgetConfig, component);
-
+      
+      WidgetFactory factory = widgetInfo.getFactory();
+      
+      JComponent component = factory.createAndRestore(widgetInfo, widgetConfig);
+     
       log.debug("Loading widget: " + widgetConfig.getName() + ", Class: " + componentClass);
-
-      component.setName(widgetConfig.getName());
-      component.putClientProperty(WidgetInfo.PROPERTY_KEY, widgetInfo);
 
       registerComponent(component);
 

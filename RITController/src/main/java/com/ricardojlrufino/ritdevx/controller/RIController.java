@@ -18,14 +18,14 @@ package com.ricardojlrufino.ritdevx.controller;
 
 import static com.ricardojlrufino.ritdevx.controller.utils.I18n.tr;
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
+import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
@@ -37,6 +37,9 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import org.apache.log4j.Appender;
 import org.apache.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.ricardojlrufino.ritdevx.controller.components.RawLogViewer;
 import com.ricardojlrufino.ritdevx.controller.components.ErrorDialog;
 import com.ricardojlrufino.ritdevx.controller.components.LogViewer;
 import com.ricardojlrufino.ritdevx.controller.configuration.HmiConfig;
@@ -47,9 +50,14 @@ import br.com.criativasoft.opendevice.connection.ConnectionStatus;
 import br.com.criativasoft.opendevice.connection.DeviceConnection;
 import br.com.criativasoft.opendevice.connection.StreamConnection;
 import br.com.criativasoft.opendevice.connection.StreamConnectionFactory;
+import br.com.criativasoft.opendevice.connection.UsbConnection;
 import br.com.criativasoft.opendevice.connection.message.Message;
+import br.com.criativasoft.opendevice.core.DefaultCommandProcessor;
 import br.com.criativasoft.opendevice.core.LocalDeviceManager;
+import br.com.criativasoft.opendevice.core.command.CommandRegistry;
 import br.com.criativasoft.opendevice.core.command.GetDevicesRequest;
+import br.com.criativasoft.opendevice.core.command.GetDevicesResponse;
+import br.com.criativasoft.opendevice.core.command.ResponseCommand;
 import br.com.criativasoft.opendevice.core.command.UserCommand;
 import br.com.criativasoft.opendevice.core.listener.DeviceListener;
 import br.com.criativasoft.opendevice.core.model.Device;
@@ -59,7 +67,7 @@ import br.com.criativasoft.opendevice.core.model.Device;
  * {@link RIControllerMain}), or it can be used to create integrations in other IDEs or in the
  * Designer project. <br/>
  * <br/>
- * The visual components defined in the layout, are executed in {@link RIDisplay}
+ * The visual components defined in the layout, are executed in {@link ControllerCanvas}
  * 
  * @author Ricardo JL Rufino - (ricardo.jl.rufino@gmail.com)
  * @date 6 de jun de 2020
@@ -69,9 +77,12 @@ public class RIController extends JFrame {
 
   /** JComponent client propery to reference a Device. */
   public static final String DEVICE_PROPERTY_KEY = "deviceRef";
+  
+  private static Logger log;
 
-  private RIDisplay display;
+  private ControllerCanvas display;
   private LogViewer logViewer;
+  private RawLogViewer rawLogViewer = new RawLogViewer();
   private JPopupMenu popup;
 
   /** This handle physical device communication (usb, tcp/ip, etc.) */
@@ -86,7 +97,7 @@ public class RIController extends JFrame {
     this.widgetManager = new WidgetManager();
     this.deviceManager = new LocalDeviceManager();
 
-    display = new RIDisplay(this, config);
+    display = new ControllerCanvas(this, config);
 
     setTitle(display.getTitle());
     setLayout(new BorderLayout());
@@ -95,7 +106,8 @@ public class RIController extends JFrame {
     if (minimumSize.width < 100)
       minimumSize = new Dimension(400, 200);
     setMinimumSize(minimumSize);
-
+    
+//    setUndecorated(true);
     initComponents();
     initPopup();
     initLogs();
@@ -144,7 +156,7 @@ public class RIController extends JFrame {
     
     this.addMouseListener(new MouseAdapter() {
       public void mouseReleased(MouseEvent e) {
-        if (e.getButton() == e.BUTTON3) {
+        if (e.getButton() == MouseEvent.BUTTON3) {
           popup.show(e.getComponent(), e.getX(), e.getY());
         }
       }
@@ -171,7 +183,6 @@ public class RIController extends JFrame {
     //    ODev.getConfig().setBindLocalVariables(false); // must call AddDevice
 
     deviceManager.addListener(deviceListener);
-
     deviceManager.addConnectionListener(connectionListener);
   }
 
@@ -179,8 +190,10 @@ public class RIController extends JFrame {
   public void connect() {
     
     if (deviceManager.getConnections().isEmpty()) {
-      StreamConnection usb = StreamConnectionFactory.createUsb();
+      UsbConnection usb = (UsbConnection) StreamConnectionFactory.createUsb();
       usb.setSerializer(null); // TODO: REMOVE THIS, precisou para forçar o padrão, mas é bug.
+      
+      rawLogViewer.monitor(usb);
       deviceManager.addConnection(usb);
     }
 
@@ -195,8 +208,8 @@ public class RIController extends JFrame {
       }
     };
 
+    display.getNotificationPanel().showNotification("Connecting", 2000);
     thread.start();
-
    
   }
 
@@ -220,11 +233,15 @@ public class RIController extends JFrame {
     @Override
     public void onDeviceRegistred(Device device) {
 
-      System.err.println("onDeviceRegistred >> " + device);
       JComponent component = widgetManager.getWidgetComponent(device.getName());
-
-      if (component != null)
+      
+      log.info("Mapping device: " + device + ", to: " + component + ", value: " + device.getValue());
+      
+      // Bind device to JComponent
+      if (component != null) {
         component.putClientProperty(DEVICE_PROPERTY_KEY, device);
+//        component.setToolTipText("TODO: BOUDED...."+ device.getId()); 
+      }
 
     }
   };
@@ -234,23 +251,40 @@ public class RIController extends JFrame {
     @Override
     public void onMessageReceived(Message message, DeviceConnection connection) {
 
+      // Custom command received...
       if (message instanceof UserCommand) {
 
         UserCommand command = (UserCommand) message;
-
+        
         JComponent component = widgetManager.getWidgetComponent(command.getName());
+        
+        List<Object> params = command.getParams();
+        
+        if (params.size() > 0) {
 
-        if (component instanceof XChartWrapper) {
-          XChartWrapper wrapper = (XChartWrapper) component;
-          wrapper.addValues(command.getParams());
+          display.updateValueForComponent(component, command.getParams());
+
+        } else {
+
+          log.warn("Command has no params: "  + command);
+          
         }
 
+      }
+
+      // Finishend device sincronization.
+      if (deviceManager.isCommandSyncDone(message)) {
+        
+        display.getNotificationPanel().showNotification("Sync Done", 2000);
+        
       }
 
     }
 
     @Override
     public void connectionStateChanged(DeviceConnection connection, ConnectionStatus status) {
+      
+      display.getNotificationPanel().showNotification(status.toString(), 2000);
 
       //          Collection<JComponent> components = widgetManager.getWidgetsComponents().values();
       //          
@@ -302,7 +336,7 @@ public class RIController extends JFrame {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-      LogViewer.display(logViewer);
+      LogViewer.display(logViewer, rawLogViewer);
 
     }
   };
@@ -374,5 +408,6 @@ public class RIController extends JFrame {
     Appender consoleAppender = (Appender) LogManager.getRootLogger().getAllAppenders().nextElement();
     appender.setLayout(consoleAppender.getLayout());
     LogManager.getRootLogger().addAppender(appender);
+    log = LoggerFactory.getLogger(RIController.class);
   }
 }
