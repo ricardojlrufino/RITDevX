@@ -16,32 +16,44 @@
  *******************************************************************************/
 package com.ricardojlrufino.ritdevx.controller.widgets.xchart;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseMotionListener;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import javax.swing.JPanel;
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.internal.chartpart.ToolTips;
+import org.knowm.xchart.style.Styler.ChartTheme;
+import org.knowm.xchart.style.Styler.LegendLayout;
+import org.knowm.xchart.style.Styler.LegendPosition;
+import org.knowm.xchart.style.Theme;
 import org.knowm.xchart.style.XYStyler;
 import org.knowm.xchart.style.markers.None;
+import com.ricardojlrufino.ritdevx.controller.widgets.model.IHasRandonData;
 
 /**
  * Container for {@link XYChart} 
  * @author Ricardo JL Rufino - (ricardo.jl.rufino@gmail.com)
  * @date 23 de jun de 2020
  */
-public class XChartWrapper extends JPanel{
+public class XChartWrapper extends JPanel implements IHasRandonData{
   // extends XChartPanel<XYChart> (removed becoude of ctrl + z - imput map) 
 
   private static final long serialVersionUID = 1L;
   
   private XYChart chart;
+  private XYStyler styler;
+
   private double count = 0;
   private int dataPoints;
   
@@ -49,7 +61,7 @@ public class XChartWrapper extends JPanel{
   private List<Double> xData = new LinkedList<>();
   
   private String dataSeries;
-  private XYStyler styler;
+  private boolean darkStyle;
 
   public XChartWrapper() {
 //    super(QuickChart.getChart("Title", "Time", "Value", "Line", new double[] {0}, new double[] {0}));
@@ -78,10 +90,29 @@ public class XChartWrapper extends JPanel{
   }
   
   protected void configureDefaults() {
+    
+    setDarkStyle(true);
+    
     XYStyler styler = chart.getStyler();
     styler.setLegendVisible(false);
     styler.setCursorEnabled(true);
-//    styler.setlabel
+    
+    styler.setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
+    styler.setLegendPosition(LegendPosition.OutsideS);
+    styler.setLegendLayout(LegendLayout.Horizontal);
+    
+//  styler.setPlotGridLinesVisible(false);
+//  styler.setXAxisTickMarkSpacingHint(100);
+//  styler.setToolTipsEnabled(true);
+    
+    styler.setSeriesColors(new Color[] {
+        new Color(56, 135, 41, 180),
+        new Color(24, 87, 184, 180),
+        new Color(224, 180, 0, 180),
+        new Color(250, 100, 0, 90),
+        new Color(196, 25, 52, 90),
+        new Color(137, 54, 178, 90),
+    });
     
     // Set the minimum and maximum values of the Y axis.
     setYAxisMax(100d);
@@ -89,6 +120,15 @@ public class XChartWrapper extends JPanel{
     setDataPoints(100);
     
     setDataSeries("Line");
+  }
+  
+  public void setDarkStyle(boolean darkStyle) {
+    this.darkStyle = darkStyle;
+    updateStyle();
+  }
+  
+  public boolean isDarkStyle() {
+    return darkStyle;
   }
   
   public void setDataPoints(int dataLength) {
@@ -161,6 +201,40 @@ public class XChartWrapper extends JPanel{
 //  }
   
   
+  
+  private void updateStyle() {
+    
+    if(isDarkStyle()) {
+      
+      Color backgroud = new Color(31, 29, 29);
+      Color textColor = new Color(187, 188, 188);
+      
+      styler.setChartFontColor(textColor);
+      styler.setChartBackgroundColor(backgroud);
+      styler.setPlotBackgroundColor(backgroud);
+      styler.setPlotBorderColor(backgroud);
+      
+      styler.setLegendBackgroundColor(backgroud);
+      styler.setLegendBorderColor(backgroud);
+      
+      styler.setXAxisTickMarksColor(backgroud); // hide
+      styler.setXAxisTickLabelsColor(textColor);
+      styler.setXAxisTitleVisible(false);
+      styler.setXAxisTicksVisible(true);
+      
+      styler.setYAxisTickMarksColor(backgroud); // hide
+      styler.setYAxisTickLabelsColor(textColor);
+      styler.setYAxisTitleVisible(false);
+      
+    }else {
+      
+      Theme theme = ChartTheme.XChart.newInstance(ChartTheme.XChart);
+      styler.setTheme(theme);
+      
+    }
+
+  }
+  
   private void initDataSeries() {
     chart.removeSeries("Line");
 
@@ -219,10 +293,20 @@ public class XChartWrapper extends JPanel{
   protected void paintComponent(Graphics g) {
 
     super.paintComponent(g);
-
+    
     Graphics2D g2d = (Graphics2D) g.create();
     chart.paint(g2d, getWidth(), getHeight());
     g2d.dispose();
+  }
+
+  @Override
+  public void initRandomData() {
+    
+    Random random = new Random();
+    for (int i = 0; i < 100; i++) {
+      addValues(Arrays.asList(random.nextInt(100)));
+    }
+    
   }
   
 
