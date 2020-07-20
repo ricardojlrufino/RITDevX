@@ -73,7 +73,7 @@ public class GaugesSteelSeriesFactory extends AbstractWidgetFactory {
     sparkLine.addProperty("NormalAreaColor");
     sparkLine.addProperty("AreaFill");
     sparkLine.addProperty("LineWidth");
-    sparkLine.addProperty("LineShadow");
+//    sparkLine.addProperty("LineShadow");
     sparkLine.addProperty("StartStopIndicatorVisible");
     sparkLine.addProperty("HiLoIndicatorVisible");
     sparkLine.addProperty("InfoLabelsVisible");
