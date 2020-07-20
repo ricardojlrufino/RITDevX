@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
+import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.SimpleGauge;
+import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.TitlePanel;
 import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.IconState;
 import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.ImageButton;
 import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.ImageState;
@@ -68,6 +70,35 @@ public class DefaultWidgetsFactory extends AbstractWidgetFactory {
     label.addProperty("CornerRadius");
     label.setSize(100, 48);
 
+
+    WidgetInfo simpleGauge = addAndsetDefaults(SimpleGauge.class, "SimpleGauge");
+    simpleGauge.addProperty("Value");
+    simpleGauge.addProperty("Decimals");
+    simpleGauge.addProperty("UnitString");
+    simpleGauge.addProperty("MinValue");
+    simpleGauge.addProperty("MaxValue");
+    simpleGauge.addProperty("ValueFont");
+    simpleGauge.addProperty("Style");
+    simpleGauge.addProperty("ColorStep1");
+    simpleGauge.addProperty("ColorStep2");
+    simpleGauge.addProperty("ColorStep3");
+    simpleGauge.addProperty("InativeColor");
+    simpleGauge.addProperty("PercentStep1");
+    simpleGauge.addProperty("PercentStep2");
+    simpleGauge.addProperty("StepsBarWidth");
+    simpleGauge.addProperty("ValueBarWidth");
+    
+    simpleGauge.setSize(200, 100);
+
+    WidgetInfo titlePanel = addAndsetDefaults(TitlePanel.class, "TitlePanel");
+    titlePanel.addProperty("Title");
+    titlePanel.addProperty("TitleFont");
+    titlePanel.addProperty("TitleColor");
+    titlePanel.addProperty("BorderColor");
+    titlePanel.addProperty("Background");
+    titlePanel.addProperty("CornerRadius");
+    titlePanel.setSize(270, 200);
+    
   }
 
 

@@ -36,7 +36,9 @@ import com.ricardojlrufino.ritdevx.controller.configuration.jaxb.DimensionSerial
 import com.ricardojlrufino.ritdevx.controller.configuration.jaxb.FontSerializer;
 import com.ricardojlrufino.ritdevx.controller.configuration.jaxb.KeyValueAdapter;
 import com.ricardojlrufino.ritdevx.controller.configuration.jaxb.PointSerializer;
-import com.ricardojlrufino.ritdevx.controller.widgets.OperationMode;
+import com.ricardojlrufino.ritdevx.controller.widgets.model.OperationMode;
+import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.SimpleGauge;
+import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.TitlePanel;
 
 /**
  * Represents the data saved in the configuration file that describes the HMI / interface
@@ -88,6 +90,8 @@ public class HmiConfig extends WidgetConfig {
         eu.hansolo.steelseries.tools.Direction.class,
         eu.hansolo.steelseries.tools.SmoothingFunction.class,
         //
+        SimpleGauge.GaugeStyle.class,
+        TitlePanel.TitlePosition.class,
         OperationMode.class);
   }
 

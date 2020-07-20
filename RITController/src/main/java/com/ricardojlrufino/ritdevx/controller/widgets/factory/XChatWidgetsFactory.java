@@ -31,10 +31,9 @@ public class XChatWidgetsFactory extends AbstractWidgetFactory {
     XYChart.addProperty("YAxisTitle");
     XYChart.addProperty("YAxisMin");
     XYChart.addProperty("YAxisMax");
+    XYChart.addProperty("DarkStyle");
     XYChart.setIcon("LineChart");
     XYChart.setSize(500, 250);  
   }
-
-
 
 }

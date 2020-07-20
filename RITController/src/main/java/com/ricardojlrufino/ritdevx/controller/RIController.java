@@ -25,6 +25,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -227,6 +228,23 @@ public class RIController extends JFrame {
       if (component != null) {
         display.updateValueForComponent(component, device.getValue());
       }
+      
+      // Update charts
+      HashMap<String,JComponent> widgetsComponents = widgetManager.getWidgetsComponents();
+      Collection<JComponent> components = widgetsComponents.values();
+      for (JComponent current : components) {
+        
+        // If DataSeries of Chart match device name, update 
+        if(current instanceof XChartWrapper) {
+          String dataSeries = ((XChartWrapper) current).getDataSeries();
+          if(dataSeries.contains(device.getName())) {
+            display.updateValueForComponent(current, device.getValue());
+          }
+          
+        }
+        
+      }
+      
 
     }
 
@@ -240,6 +258,7 @@ public class RIController extends JFrame {
       // Bind device to JComponent
       if (component != null) {
         component.putClientProperty(DEVICE_PROPERTY_KEY, device);
+        display.updateValueForComponent(component, device.getValue());
 //        component.setToolTipText("TODO: BOUDED...."+ device.getId()); 
       }
 
