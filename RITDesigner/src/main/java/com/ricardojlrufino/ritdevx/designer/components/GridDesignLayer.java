@@ -100,7 +100,7 @@ public class GridDesignLayer extends JPanel {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D) g.create();
-
+    
     int width = getWidth();
     int height = getHeight();
 
@@ -121,19 +121,22 @@ public class GridDesignLayer extends JPanel {
         y += gridSize;
       }
     }
-
+    
+    // Draw lines whem move component in canvas
     if (dragComponent != null) {
       drawGuideLines(g2);
     }
+
+    // Draw hover effect
+    if (hoverComponent != null) {
+      drawSelectedLines(hoverComponent, g2, false);
+    }
     
+    // Draw selected effect
     if (selectedComponent != null) {
       drawSelectedLines(selectedComponent, g2, true);
     }
     
-    if (hoverComponent != null) {
-      drawSelectedLines(hoverComponent, g2, false);
-    }
-
     g2.dispose();
   }
   
@@ -148,6 +151,7 @@ public class GridDesignLayer extends JPanel {
     bounds.setBounds(bounds.x + size, bounds.y + size, bounds.width - size * 2, bounds.height - size * 2);
     g2.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
     
+    // Draw resize marker on corner
     if(selected) {
       int dragSize = 8;
       g2.fillRect(bounds.x + bounds.width - dragSize, bounds.y + bounds.height - dragSize, dragSize, dragSize);
@@ -182,8 +186,20 @@ public class GridDesignLayer extends JPanel {
 
   public static void setHoverComponent(JComponent hoverComponent) {
     if(hoverComponent instanceof JLayeredPane) return;
+    
+    JComponent oldComponent = GridDesignLayer.hoverComponent;
+    
     GridDesignLayer.hoverComponent = hoverComponent;
-    ref.repaint();
+    
+    if(hoverComponent != null) {
+      Rectangle bounds = hoverComponent.getBounds();
+      ref.paintImmediately(new Rectangle(bounds.x, bounds.y, bounds.width + 1, bounds.height + 1));
+    }
+    
+    if(oldComponent != null) {
+      Rectangle bounds = oldComponent.getBounds();
+      ref.paintImmediately(new Rectangle(bounds.x, bounds.y, bounds.width + 1, bounds.height + 1));
+    }
   }
   
   public static void setSelectedComponent(JComponent selectedComponent) {
