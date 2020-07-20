@@ -174,7 +174,7 @@ public class ImageState extends JComponent implements OnOffInterface{
   }
 
   @Override
-  public void toogle() {
+  public void toggle() {
     if (isOn())
       off();
     else

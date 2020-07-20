@@ -158,7 +158,7 @@ public class IconState extends JLabel implements ButtonInterface {
   }
 
   @Override
-  public void toogle() {
+  public void toggle() {
     if (isOn())
       off();
     else
