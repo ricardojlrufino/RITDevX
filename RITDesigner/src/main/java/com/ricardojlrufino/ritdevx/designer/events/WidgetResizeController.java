@@ -36,11 +36,9 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
 
 import com.ricardojlrufino.ritdevx.designer.components.BeanPropertiesTabeModel;
 import com.ricardojlrufino.ritdevx.designer.components.GridDesignLayer;
-import com.ricardojlrufino.ritdevx.designer.components.ResizableBorder;
 import com.ricardojlrufino.ritdevx.designer.view.PropertiesPanel;
 
 /**
@@ -58,9 +56,6 @@ public class WidgetResizeController extends MouseAdapter implements MouseMotionL
   private JComponent comp;
   private JComponent parent;
 
-  private Border borderDefault;
-  private Border resizableBorder;
-  
   private PropertiesPanel properties;
   boolean resizing = false;
 
@@ -76,8 +71,6 @@ public class WidgetResizeController extends MouseAdapter implements MouseMotionL
 
     this.comp = component;
     this.comp.setDoubleBuffered(true);
-    this.borderDefault = comp.getBorder();
-    this.resizableBorder = new ResizableBorder();
     this.parent = (JComponent) comp.getParent();
     this.properties = table;
 
@@ -107,7 +100,6 @@ public class WidgetResizeController extends MouseAdapter implements MouseMotionL
   public void mouseReleased(MouseEvent e) {
     resizing = false;
     comp.setCursor(Cursor.getDefaultCursor());
-    comp.setBorder(borderDefault);
     GridDesignLayer.setDragComponent(null);
     comp.getParent().repaint();
   }

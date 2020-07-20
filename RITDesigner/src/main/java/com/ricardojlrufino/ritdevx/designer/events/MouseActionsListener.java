@@ -64,8 +64,6 @@ import jiconfont.IconCode;
  */
 public final class MouseActionsListener implements MouseListener {
   private JComponent comp;
-  private Border borderDefault;
-  private Border hoverBorder;
 
   //  private Container parent;
   //  private TreeMap<String, JComponent> addedComponentsMap;
@@ -82,15 +80,9 @@ public final class MouseActionsListener implements MouseListener {
 
     this.comp = component;
     this.designer = designer;
-    this.borderDefault = comp.getBorder();
 
     if (!(comp instanceof JLayeredPane)) {
       comp.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-    }
-    
-    if (borderDefault != null) {
-      Insets borderInsets = borderDefault.getBorderInsets(comp);
-      hoverBorder = new ResizableBorder(Color.BLUE, borderInsets.bottom);
     }
 
   }
@@ -107,7 +99,6 @@ public final class MouseActionsListener implements MouseListener {
     int btn = e.getButton();
     
     if (btn == 1) {
-      comp.setBorder(hoverBorder);
       // System.out.println(parent.getComponentZOrder(comp));
       comp.requestFocus();
 
@@ -115,7 +106,7 @@ public final class MouseActionsListener implements MouseListener {
       if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
         if (comp instanceof OnOffInterface) {
           OnOffInterface offInterface = (OnOffInterface) comp;
-          offInterface.toogle();
+          offInterface.toggle();
         }
       }
 
@@ -220,11 +211,11 @@ public final class MouseActionsListener implements MouseListener {
       
       popup.addSeparator();
       
-      menuItem = new JMenuItem("Move Up");
+      menuItem = new JMenuItem("Layer Up");
       menuItem.addActionListener(e -> designer.moveUpDown(comp, true));
       popup.add(menuItem);
 
-      menuItem = new JMenuItem("Move Down");
+      menuItem = new JMenuItem("Layer Down");
       menuItem.addActionListener(e -> designer.moveUpDown(comp, false));
       popup.add(menuItem);
 

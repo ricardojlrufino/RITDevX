@@ -80,7 +80,7 @@ public class DesignerCanvas extends JLayeredPane {
     this.designer = designer;
     setName(CANVAS_NAME);
     setOpaque(true);
-    setBackground(Color.LIGHT_GRAY);
+    setBackground(new Color(20, 20, 20));
     setTransferHandler(new DropComponentHandler());
 
     // Set editable propertis to edit by user.
@@ -104,11 +104,14 @@ public class DesignerCanvas extends JLayeredPane {
   }
 
   protected void initLayers() {
-    gridDesignLayer = new GridDesignLayer(this);
+
     backgroudPanel = new BackgroudPanel();
-    setGridSize(gridSize);
     add(backgroudPanel, new Integer(1));
+
+    gridDesignLayer = new GridDesignLayer(this);
     add(gridDesignLayer, new Integer(50));
+    
+    setGridSize(gridSize);
   }
 
   public void setCurrentLayer(int currentLayer) {
