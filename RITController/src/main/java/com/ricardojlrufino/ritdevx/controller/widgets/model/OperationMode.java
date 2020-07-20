@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License 
  * along with this program. See the included LICENSE file for details.
  *******************************************************************************/
-package com.ricardojlrufino.ritdevx.controller.widgets;
+package com.ricardojlrufino.ritdevx.controller.widgets.model;
 
 public enum OperationMode {
   SWITCH, PUSH_BUTTON, SENSOR
