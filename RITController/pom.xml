@@ -37,7 +37,13 @@
         <dependency>
             <groupId>org.knowm.xchart</groupId>
             <artifactId>xchart</artifactId>
-            <version>3.6.3</version>
+            <version>3.6.4</version>
+            <exclusions>
+                <exclusion>
+                  <groupId>de.rototor.pdfbox</groupId>
+                  <artifactId>graphics2d</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
