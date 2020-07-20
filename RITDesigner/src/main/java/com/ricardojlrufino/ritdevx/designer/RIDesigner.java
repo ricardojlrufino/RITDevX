@@ -19,11 +19,7 @@ package com.ricardojlrufino.ritdevx.designer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Event;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
 import java.awt.Point;
-import java.awt.Transparency;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -46,7 +42,6 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -69,6 +64,7 @@ import com.ricardojlrufino.ritdevx.controller.widgets.OnOffInterface;
 import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
 import com.ricardojlrufino.ritdevx.controller.widgets.factory.DefaultWidgetsFactory;
 import com.ricardojlrufino.ritdevx.controller.widgets.factory.WidgetFactory;
+import com.ricardojlrufino.ritdevx.controller.widgets.model.IHasRandonData;
 import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.IconState;
 import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.ImageButton;
 import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.ImageState;
@@ -77,8 +73,8 @@ import com.ricardojlrufino.ritdevx.designer.events.MouseActionsListener;
 import com.ricardojlrufino.ritdevx.designer.events.WidgetKeyListener;
 import com.ricardojlrufino.ritdevx.designer.events.WidgetResizeController;
 import com.ricardojlrufino.ritdevx.designer.propeditor.FilePropertyEditor;
-import com.ricardojlrufino.ritdevx.designer.view.PropertiesPanel;
 import com.ricardojlrufino.ritdevx.designer.view.DesignerCanvas;
+import com.ricardojlrufino.ritdevx.designer.view.PropertiesPanel;
 import com.ricardojlrufino.ritdevx.designer.view.WidgetSelectorPanel;
 
 /**
@@ -384,7 +380,7 @@ public class RIDesigner extends JFrame {
   }
 
   /**
-   * Called after new component aded on canvas or on loaded from life.
+   * Called after new component added to canvas or on loaded from life.
    * 
    * @param comp
    * @param askSelect - true for drag - some dragged components ask for select a image.
@@ -416,6 +412,11 @@ public class RIDesigner extends JFrame {
     if (comp instanceof OnOffInterface) {
       OnOffInterface state = (OnOffInterface) comp;
       state.off();
+    }
+    
+    // Generate randon data to improve visuaization
+    if(comp instanceof IHasRandonData) {
+      ((IHasRandonData) comp).initRandomData();
     }
 
     if (askSelect) {
