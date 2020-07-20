@@ -32,9 +32,13 @@ It consists mainly in this modules:
 
 ![Demo](docs/images/intro.gif)
 
+[More prints and Use Cases](https://opendevice.atlassian.net/wiki/spaces/RITDevX/pages/1690435585/Use+Cases)
+
 ### Controller (preview)
 
 ![Controller](/media/ricardo/Dados/Workspace/Arduino/RITDevX-Project/docs/images/controller_preview.gif)
+
+[More prints and Use Cases](https://opendevice.atlassian.net/wiki/spaces/RITDevX/pages/1690435585/Use+Cases)
 
 ## Key features (Designer)
 
@@ -45,10 +49,33 @@ It consists mainly in this modules:
 - Allow rapid simulation ( need Controller )  
 - Widgets  
   - [x] Images  
-  - [ ] Icons (WIP)  
-  - [ ] Gauges  
-  - [ ] Levels   
-  - [x] Charts (WIP)  
+  
+  - [x] Buttons (image)
+  
+  - [x] Icons
+  
+  - [x] Gauges  
+  
+    - [x] Simple (color based)
+    - [x] Multiple gauges with skins
+  
+  - [x] LineChart
+  
+  - [x] SparkLine
+  
+  - [x] Panels
+  
+  - [x] Label Text
+  
+  - [x] Radial Bars
+  
+  - [x] Led
+  
+  - [x] Display (with Skins)
+  
+  - [x] LevelsBar 
+  
+    
 
 Please see: [docs/WORK_IN_PROGRESS.md](docs/WORK_IN_PROGRESS.md), to a full list of planned features and the current state
 
@@ -62,6 +89,7 @@ See:  [User Guide Designer Tutorial](https://opendevice.atlassian.net/wiki/space
   - [x] Usb  
   - [ ] Bluetooth  
   - [ ] TCP / WiFi  
+- Arduino Library for easy integration. 
 
 
 Please see: [docs/WORK_IN_PROGRESS.md](docs/WORK_IN_PROGRESS.md), to a full list of planned features and the current state
