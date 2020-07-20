@@ -14,15 +14,8 @@
  *******************************************************************************/
 package com.ricardojlrufino.ritdevx.controller.widgets.skinnable;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.net.URL;
-import javax.swing.JComponent;
-import com.ricardojlrufino.ritdevx.controller.utils.UIHelper;
 import com.ricardojlrufino.ritdevx.controller.widgets.ButtonInterface;
-import com.ricardojlrufino.ritdevx.controller.widgets.OnOffInterface;
-import com.ricardojlrufino.ritdevx.controller.widgets.OperationMode;
+import com.ricardojlrufino.ritdevx.controller.widgets.model.OperationMode;
 
 /**
  * This component uses two images to represent the ON and OFF states (optional). <br/>

@@ -28,7 +28,7 @@ public interface OnOffInterface {
 
   public void off();
 
-  public void toogle();
+  public void toggle();
 
   public boolean isOn();
 

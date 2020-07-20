@@ -16,6 +16,8 @@
  *******************************************************************************/
 package com.ricardojlrufino.ritdevx.controller.widgets;
 
+import com.ricardojlrufino.ritdevx.controller.widgets.model.OperationMode;
+
 /**
  * Identifies components that can transition between two ON and OFF states. <br/>
  * It also has an optional 'CustomCmd' attribute, which identifies which command should be sent when
