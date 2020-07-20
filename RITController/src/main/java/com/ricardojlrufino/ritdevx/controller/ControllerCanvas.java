@@ -36,9 +36,10 @@ import com.ricardojlrufino.ritdevx.controller.components.NotificationPanel;
 import com.ricardojlrufino.ritdevx.controller.configuration.HmiConfig;
 import com.ricardojlrufino.ritdevx.controller.widgets.ButtonInterface;
 import com.ricardojlrufino.ritdevx.controller.widgets.OnOffInterface;
-import com.ricardojlrufino.ritdevx.controller.widgets.OperationMode;
 import com.ricardojlrufino.ritdevx.controller.widgets.WidgetInfo;
 import com.ricardojlrufino.ritdevx.controller.widgets.factory.DefaultWidgetsFactory;
+import com.ricardojlrufino.ritdevx.controller.widgets.model.OperationMode;
+import com.ricardojlrufino.ritdevx.controller.widgets.skinnable.SimpleGauge;
 import com.ricardojlrufino.ritdevx.controller.widgets.xchart.XChartWrapper;
 import br.com.criativasoft.opendevice.core.LocalDeviceManager;
 import br.com.criativasoft.opendevice.core.model.Device;
@@ -179,29 +180,25 @@ public class ControllerCanvas extends JLayeredPane {
 
           ButtonInterface onoff = (ButtonInterface) component;
 
-
           if(onoff.getOperationMode() == OperationMode.PUSH_BUTTON ) {
             
-            onoff.on(); // update UI
             if (device != null) device.on(); // send coomand
+            else onoff.on();  // update UI, if not has device
             
             // turn off after some delay
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
               @Override
               public void run() {
-                onoff.off(); // update UI
-                if (device != null) device.off(); // send coomand
+                if (device != null) device.off(); // send comand
+                else onoff.off(); // update UI, if not has device
               }
             }, 100);
             
           }else {
             
-            onoff.toogle(); // update UI
-
-            if (device != null) {
-              device.toggle(); // send coomand
-            }
+            if (device != null) device.toggle(); // send coomand
+            else onoff.toggle(); // update UI, if not has device
             
           }
           
@@ -265,7 +262,15 @@ public class ControllerCanvas extends JLayeredPane {
       
       ((SparkLine) component).addDataPoint(value);
       
-    } 
+    } else if (component instanceof SimpleGauge) {
+      
+      ((SimpleGauge) component).setValue(value);
+      
+    } else if (component instanceof XChartWrapper) {
+      
+      ((XChartWrapper) component).addValues(Arrays.asList(value));
+      
+    }
 
   }
 
