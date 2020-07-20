@@ -6,29 +6,23 @@
     <GridSize type="java.lang.Integer">20</GridSize>
     <GridColor type="java.awt.Color" >206,0,0</GridColor>
     <CurrentLayer type="java.lang.Integer">1</CurrentLayer>
-    <widgets name="BtnMax" type="Image">
+    <widgets name="BtnMax" type="Button">
         <Location type="java.awt.Point" >60,163</Location>
         <Size type="java.awt.Dimension" >24,22</Size>
         <Layer type="java.lang.Integer">0</Layer>
         <Active type="java.lang.Boolean">false</Active>
         <AutoScale type="java.lang.Boolean">false</AutoScale>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">PUSH_BUTTON</OperationMode>
+        <CustomCmd type="java.lang.String">ChangeVolume,1</CustomCmd>
     </widgets>
-    <widgets name="BtnMin" type="Image">
+    <widgets name="BtnMin" type="Button">
         <Location type="java.awt.Point" >33,163</Location>
         <Size type="java.awt.Dimension" >24,22</Size>
         <Layer type="java.lang.Integer">0</Layer>
         <Active type="java.lang.Boolean">false</Active>
         <AutoScale type="java.lang.Boolean">false</AutoScale>
-    </widgets>
-    <widgets name="Icon1" type="Icon">
-        <Location type="java.awt.Point" >256,229</Location>
-        <Size type="java.awt.Dimension" >48,48</Size>
-        <Layer type="java.lang.Integer">0</Layer>
-        <Active type="java.lang.Boolean">false</Active>
-        <IconOn type="jiconfont.icons.font_awesome.FontAwesome">LIGHTBULB_O</IconOn>
-        <ColorOn type="java.awt.Color" >0,255,0</ColorOn>
-        <ColorOff type="java.awt.Color" >255,0,0</ColorOff>
         <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.OperationMode">PUSH_BUTTON</OperationMode>
+        <CustomCmd type="java.lang.String">ChangeVolume,0</CustomCmd>
     </widgets>
     <widgets name="Led" type="Button">
         <Location type="java.awt.Point" >621,156</Location>
