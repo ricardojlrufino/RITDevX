@@ -95,7 +95,7 @@ public class JKnob extends JComponent implements MouseListener, MouseMotionListe
   // Current position
   private double theta;
   private double angle;
-
+ 
   // Configurable positions
   private int minAngle = 10;
   private int maxAngle = 350;
@@ -159,7 +159,8 @@ public class JKnob extends JComponent implements MouseListener, MouseMotionListe
 
 
   /**
-   * Defines the control point used to rotate the Knob
+   * Defines the control point used to rotate the Knob.
+   * ControlPoint is the point where it supports interaction with the mouse.
    * 
    * @param controlPointOffset
    */
@@ -168,9 +169,17 @@ public class JKnob extends JComponent implements MouseListener, MouseMotionListe
     this.controlPointOffset = controlPointOffset;
     firePropertyChange("controlPointOffset", oldValue, controlPointOffset);
   }
+  
+  public int getControlPointOffset() {
+    return controlPointOffset;
+  }
 
   public void setControlPointSize(int controlPointSize) {
     this.controlPointSize = controlPointSize;
+  }
+  
+  public int getControlPointSize() {
+    return controlPointSize;
   }
 
   /**
@@ -182,6 +191,10 @@ public class JKnob extends JComponent implements MouseListener, MouseMotionListe
     this.maxAngle = maxAngle;
     if (debug)
       repaint();
+  }
+  
+  public int getMaxAngle() {
+    return maxAngle;
   }
 
   /**

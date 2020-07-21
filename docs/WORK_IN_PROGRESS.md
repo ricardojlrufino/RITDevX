@@ -21,12 +21,16 @@ Desinger
 - [ ] Exit (ask if as changes.)
 - [ ] Warning for IMAGES not found on open file
 - [ ] List of Recent files
+- [ ] Show loading on Open large files..
+- [x] Add Layer Support
+- [ ] Print-screen - to export components to easy create backboards
 
 ### Editing Features
 
 - [x] Drag and drop (external images)
 - [x] Move Components
 - [x] Move Components (using keyboard arrows)
+  - [x] Move fast using CTRL
 - [x] Delete (Delete key / popup)
 - [ ] Delete (ask before delete ?)
 - [x] Clone
@@ -36,18 +40,21 @@ Desinger
 - [ ] Grid Snap (using grid constraints)
 - [x] Guide lines
 - [ ] Snap / Guide lines with others components
+- [x] Popup on right click (allow change file properties / images)
+- [ ] Open Image Editor (like gimp) on Po-pup Menu...
 - [ ] Auto-reload images on external changes (automatic ou from button ?).
-- [x] Popup on right click (allow change file properties / limages)
-- [ ] Open Image Editor (like gimp) on Popup Menu...
 - [ ] Control + Z (Undo / Redo)
 - [x] Detect transparent image shape / border
 - [x] Relative image (open)
 - [ ] Relative image (save)
+- [ ] Custom Color Choser
+  - [ ] http://www.java2s.com/Code/Java/Swing-JFC/extendsAbstractColorChooserPanel.htm
+  - [ ] https://htmlcolorcodes.com/color-chart/
 
 ### Simulation
 
 - [x] Start simulation (F9)
-- [x] Disconect on close
+- [x] Disconnect on close
 
 
 ### Visual
@@ -73,37 +80,36 @@ Desinger
 - [x] On/Off images
 - [x] Design Mode
 - [x] Controller Mode
-- [ ] Operation modes 
-  - [ ] None
-  - [ ] Sensor
-  - [x] Button
-  - [ ] Push
-- [x] CustomCmd  : Send values defined by user.   
 - [x] Avoid click in transparent areas of image
-- [ ] Pre-defined buttom images
-- [ ] Contribuited images loaded from github
+- [ ] 
+- [x] Resize
 
 ### Icons
 
 - [x] Design Mode
-- [ ] Controller Mode
-
+- [x] Controller Mode
 - [x] On/Off images
-- [ ] Operation modes 
+- [x] Operation modes 
+- [x] CustomCmd  : Send values defined by user.   
 
 ### Charts (XCharts)
 
-- [ ] Line
+- [x] Line
   - [x] Design Mode
   - [x] Controller Mode
-- [ ] Graficos, precisa definir o atributo de onde ele obtem as linhas.   
+- [x] Multi-line support 
 
-Button
+### Button (image)
 
-- [ ] Design Mode
-- [ ] Controller Mode
-
-Use this class: https://github.com/lukakralj/Snippets/blob/master/Java/ovalButton/OvalButton.java
+- [x] Design Mode
+- [x] Controller Mode
+- [x] CustomCmd  : Send values defined by user.   
+- [ ] Pre-defined buttom images
+- [ ] Contribuited images loaded from github
+- [x] Operation modes 
+  - [x] Sensor
+  - [x] Switch
+  - [x] Push
 
 ### Gauges (SteelSeries)
 
@@ -117,6 +123,8 @@ Levels (SteelSeries)
 
  - Level ( para criar barra de progressos, como temperatura, nível de água )
 
+    - https://stackoverflow.com/questions/21423670/4-color-gradient-using-java-awt
+
  - CircularKnobs ( controles circulares, como potenciômetros  ... quase finalizado )
 
    
@@ -127,7 +135,8 @@ Controller (Execution)
 - [ ] CLI - Run from cmd line 
 - [x] Run / Simulate from Designer
 - [x] Log View
-   - [ ] Log View (auto-clear or use CircularBuffer to avoid memory leaks)
+   - [x] Log View (auto-clear or use CircularBuffer to avoid memory leaks)
+   - [x] Raw Logs view
    - [ ] Save logs to file
 - [ ] Reportar errros (https://www.bugsnag.com/open-source | https://sentry.io/for/open-source/)
 - [x] **OpenDevice protocol support**
@@ -138,9 +147,9 @@ Controller (Execution)
    - [x] Usb
    - [ ] Bluetooth
    - [ ] TCP / WIFI  
-- [ ] Add label to Connecion status... (connecting and desconnected.)
+- [x] Notifications of Connection status... (connecting and disconnected.)
 - [x] Support for sending commands (user commands)
-- [x] Example with arduino
+- [x] Example with Arduino
 - [ ] Example of receipt with Esp8266
 - [ ] Multiple charts to same DATA
    - Allow create multiple viwes, from same device.

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config name="App" type="App">
+    <Background type="java.awt.Color" >0,0,0</Background>
+    <BackgroudImage type="java.io.File">images/background.png</BackgroudImage>
+    <ShowGrid type="java.lang.Boolean">false</ShowGrid>
+    <GridSize type="java.lang.Integer">20</GridSize>
+    <GridColor type="java.awt.Color" >206,206,255</GridColor>
+    <CurrentLayer type="java.lang.Integer">1</CurrentLayer>
+    <widgets name="Humidity" type="SimpleGauge">
+        <Location type="java.awt.Point" >362,119</Location>
+        <Size type="java.awt.Dimension" >200,132</Size>
+        <Layer type="java.lang.Integer">2</Layer>
+        <Value type="java.lang.Double">0.0</Value>
+        <Decimals type="java.lang.Integer">0</Decimals>
+        <UnitString type="java.lang.String">%</UnitString>
+        <MinValue type="java.lang.Double">0.0</MinValue>
+        <MaxValue type="java.lang.Double">100.0</MaxValue>
+        <Style type="com.ricardojlrufino.ritdevx.controller.widgets.skinnable.SimpleGauge$GaugeStyle">BEST_FIT</Style>
+        <ColorStep1 type="java.awt.Color" >222,224,51</ColorStep1>
+        <ColorStep2 type="java.awt.Color" >38,64,214</ColorStep2>
+        <ColorStep3 type="java.awt.Color" >49,168,44</ColorStep3>
+        <InativeColor type="java.awt.Color" >34,34,34</InativeColor>
+        <PercentStep1 type="java.lang.Integer">35</PercentStep1>
+        <PercentStep2 type="java.lang.Integer">70</PercentStep2>
+        <StepsBarWidth type="java.lang.Integer">8</StepsBarWidth>
+        <ValueBarWidth type="java.lang.Integer">40</ValueBarWidth>
+    </widgets>
+    <widgets name="Humidity_Chart" type="LineChart">
+        <Location type="java.awt.Point" >323,309</Location>
+        <Size type="java.awt.Dimension" >278,254</Size>
+        <Layer type="java.lang.Integer">2</Layer>
+        <Title type="java.lang.String"/>
+        <DataSeries type="java.lang.String">Humidity</DataSeries>
+        <DataPoints type="java.lang.Integer">100</DataPoints>
+        <XAxisTitle type="java.lang.String">Time</XAxisTitle>
+        <YAxisTitle type="java.lang.String">Value</YAxisTitle>
+        <YAxisMin type="java.lang.Double">0.0</YAxisMin>
+        <YAxisMax type="java.lang.Double">100.0</YAxisMax>
+        <DarkStyle type="java.lang.Boolean">true</DarkStyle>
+    </widgets>
+    <widgets name="Led" type="Icon">
+        <Location type="java.awt.Point" >688,363</Location>
+        <Size type="java.awt.Dimension" >142,133</Size>
+        <Layer type="java.lang.Integer">2</Layer>
+        <Active type="java.lang.Boolean">true</Active>
+        <IconOn type="jiconfont.icons.font_awesome.FontAwesome">LIGHTBULB_O</IconOn>
+        <ColorOn type="java.awt.Color" >0,204,51</ColorOn>
+        <ColorOff type="java.awt.Color" >102,102,102</ColorOff>
+        <OperationMode type="com.ricardojlrufino.ritdevx.controller.widgets.model.OperationMode">PUSH_BUTTON</OperationMode>
+    </widgets>
+    <widgets name="LineChart4" type="LineChart">
+        <Location type="java.awt.Point" >22,309</Location>
+        <Size type="java.awt.Dimension" >281,254</Size>
+        <Layer type="java.lang.Integer">2</Layer>
+        <Title type="java.lang.String"/>
+        <DataSeries type="java.lang.String">Temperature</DataSeries>
+        <DataPoints type="java.lang.Integer">100</DataPoints>
+        <XAxisTitle type="java.lang.String">Time</XAxisTitle>
+        <YAxisTitle type="java.lang.String">Value</YAxisTitle>
+        <YAxisMin type="java.lang.Double">0.0</YAxisMin>
+        <YAxisMax type="java.lang.Double">100.0</YAxisMax>
+        <DarkStyle type="java.lang.Boolean">true</DarkStyle>
+    </widgets>
+    <widgets name="Lumens" type="SimpleGauge">
+        <Location type="java.awt.Point" >682,106</Location>
+        <Size type="java.awt.Dimension" >159,159</Size>
+        <Layer type="java.lang.Integer">2</Layer>
+        <Value type="java.lang.Double">0.0</Value>
+        <Decimals type="java.lang.Integer">0</Decimals>
+        <UnitString type="java.lang.String">lux</UnitString>
+        <MinValue type="java.lang.Double">0.0</MinValue>
+        <MaxValue type="java.lang.Double">100.0</MaxValue>
+        <Style type="com.ricardojlrufino.ritdevx.controller.widgets.skinnable.SimpleGauge$GaugeStyle">CIRCLE</Style>
+        <ColorStep1 type="java.awt.Color" >222,224,51</ColorStep1>
+        <ColorStep2 type="java.awt.Color" >204,0,0</ColorStep2>
+        <ColorStep3 type="java.awt.Color" >255,102,0</ColorStep3>
+        <InativeColor type="java.awt.Color" >34,34,34</InativeColor>
+        <PercentStep1 type="java.lang.Integer">100</PercentStep1>
+        <PercentStep2 type="java.lang.Integer">0</PercentStep2>
+        <StepsBarWidth type="java.lang.Integer">8</StepsBarWidth>
+        <ValueBarWidth type="java.lang.Integer">40</ValueBarWidth>
+    </widgets>
+    <widgets name="Temperature" type="SimpleGauge">
+        <Location type="java.awt.Point" >87,108</Location>
+        <Size type="java.awt.Dimension" >155,155</Size>
+        <Layer type="java.lang.Integer">2</Layer>
+        <Value type="java.lang.Double">0.0</Value>
+        <Decimals type="java.lang.Integer">1</Decimals>
+        <UnitString type="java.lang.String">ºC</UnitString>
+        <MinValue type="java.lang.Double">0.0</MinValue>
+        <MaxValue type="java.lang.Double">100.0</MaxValue>
+        <Style type="com.ricardojlrufino.ritdevx.controller.widgets.skinnable.SimpleGauge$GaugeStyle">SEMI_CIRCLE_LEFT</Style>
+        <ColorStep1 type="java.awt.Color" >51,55,224</ColorStep1>
+        <ColorStep2 type="java.awt.Color" >10,212,12</ColorStep2>
+        <ColorStep3 type="java.awt.Color" >171,5,4</ColorStep3>
+        <InativeColor type="java.awt.Color" >34,34,34</InativeColor>
+        <PercentStep1 type="java.lang.Integer">20</PercentStep1>
+        <PercentStep2 type="java.lang.Integer">50</PercentStep2>
+        <StepsBarWidth type="java.lang.Integer">8</StepsBarWidth>
+        <ValueBarWidth type="java.lang.Integer">40</ValueBarWidth>
+    </widgets>
+    <widgets name="TitlePanel4" type="TitlePanel">
+        <Location type="java.awt.Point" >17,72</Location>
+        <Size type="java.awt.Dimension" >288,202</Size>
+        <Layer type="java.lang.Integer">1</Layer>
+        <Title type="java.lang.String">Temperature</Title>
+        <TitleFont type="java.awt.Font" >sansserif,1,14</TitleFont>
+        <TitleColor type="java.awt.Color" >217,217,217</TitleColor>
+        <BorderColor type="java.awt.Color" >41,41,41</BorderColor>
+        <Background type="java.awt.Color" >31,29,30</Background>
+        <CornerRadius type="java.lang.Integer">0</CornerRadius>
+    </widgets>
+    <widgets name="TitlePanel4_Humidity" type="TitlePanel">
+        <Location type="java.awt.Point" >317,72</Location>
+        <Size type="java.awt.Dimension" >288,202</Size>
+        <Layer type="java.lang.Integer">1</Layer>
+        <Title type="java.lang.String">Humidity</Title>
+        <TitleFont type="java.awt.Font" >sansserif,1,14</TitleFont>
+        <TitleColor type="java.awt.Color" >217,217,217</TitleColor>
+        <BorderColor type="java.awt.Color" >41,41,41</BorderColor>
+        <Background type="java.awt.Color" >31,29,30</Background>
+        <CornerRadius type="java.lang.Integer">0</CornerRadius>
+    </widgets>
+    <widgets name="TitlePanel4_Limens" type="TitlePanel">
+        <Location type="java.awt.Point" >615,72</Location>
+        <Size type="java.awt.Dimension" >288,202</Size>
+        <Layer type="java.lang.Integer">1</Layer>
+        <Title type="java.lang.String">Ilumination</Title>
+        <TitleFont type="java.awt.Font" >sansserif,1,14</TitleFont>
+        <TitleColor type="java.awt.Color" >217,217,217</TitleColor>
+        <BorderColor type="java.awt.Color" >41,41,41</BorderColor>
+        <Background type="java.awt.Color" >31,29,30</Background>
+        <CornerRadius type="java.lang.Integer">0</CornerRadius>
+    </widgets>
+    <widgets name="TitlePanel_Humidity2" type="TitlePanel">
+        <Location type="java.awt.Point" >316,285</Location>
+        <Size type="java.awt.Dimension" >288,280</Size>
+        <Layer type="java.lang.Integer">1</Layer>
+        <Title type="java.lang.String">Humidity</Title>
+        <TitleFont type="java.awt.Font" >sansserif,1,14</TitleFont>
+        <TitleColor type="java.awt.Color" >217,217,217</TitleColor>
+        <BorderColor type="java.awt.Color" >41,41,41</BorderColor>
+        <Background type="java.awt.Color" >31,29,30</Background>
+        <CornerRadius type="java.lang.Integer">0</CornerRadius>
+    </widgets>
+    <widgets name="TitlePanel_Ilumination2" type="TitlePanel">
+        <Location type="java.awt.Point" >615,285</Location>
+        <Size type="java.awt.Dimension" >288,280</Size>
+        <Layer type="java.lang.Integer">1</Layer>
+        <Title type="java.lang.String">Led</Title>
+        <TitleFont type="java.awt.Font" >sansserif,1,14</TitleFont>
+        <TitleColor type="java.awt.Color" >217,217,217</TitleColor>
+        <BorderColor type="java.awt.Color" >41,41,41</BorderColor>
+        <Background type="java.awt.Color" >31,29,30</Background>
+        <CornerRadius type="java.lang.Integer">0</CornerRadius>
+    </widgets>
+    <widgets name="TitlePanel_Temp2" type="TitlePanel">
+        <Location type="java.awt.Point" >17,285</Location>
+        <Size type="java.awt.Dimension" >288,280</Size>
+        <Layer type="java.lang.Integer">1</Layer>
+        <Title type="java.lang.String">Temperature</Title>
+        <TitleFont type="java.awt.Font" >sansserif,1,14</TitleFont>
+        <TitleColor type="java.awt.Color" >217,217,217</TitleColor>
+        <BorderColor type="java.awt.Color" >41,41,41</BorderColor>
+        <Background type="java.awt.Color" >31,29,30</Background>
+        <CornerRadius type="java.lang.Integer">0</CornerRadius>
+    </widgets>
+</config>
