@@ -292,12 +292,22 @@ public class RIController extends JFrame {
       }
 
       // Finishend device sincronization.
-      if (deviceManager.isCommandSyncDone(message)) {
+      if (isSyncDone(message)) {
         
         display.getNotificationPanel().showNotification("Sync Done", 2000);
         
       }
 
+    }
+    
+    private final boolean isSyncDone( Message message ) {
+      if (message instanceof GetDevicesResponse) {
+          GetDevicesResponse responseCommand = (GetDevicesResponse) message;
+          if (responseCommand.isLast()) {
+              return true;
+          }
+      }
+      return false;
     }
 
     @Override
