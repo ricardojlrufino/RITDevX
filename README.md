@@ -42,6 +42,8 @@ It consists mainly in this modules:
 
 ## Key features (Designer)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bd99fc0164cb405f9e995fe23789b62a)](https://app.codacy.com/manual/ricardojlrufino/RITDevX?utm_source=github.com&utm_medium=referral&utm_content=ricardojlrufino/RITDevX&utm_campaign=Badge_Grade_Dashboard)
+
 - Drag and drop components  
 - Drag and drop external images  
 - Keyboard editing  
