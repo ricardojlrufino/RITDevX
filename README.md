@@ -36,7 +36,7 @@ It consists mainly in this modules:
 
 ### Controller (preview)
 
-![Controller](/media/ricardo/Dados/Workspace/Arduino/RITDevX-Project/docs/images/controller_preview.gif)
+![Controller](docs/images/controller_preview.gif)
 
 [More prints and Use Cases](https://opendevice.atlassian.net/wiki/spaces/RITDevX/pages/1690435585/Use+Cases)
 
